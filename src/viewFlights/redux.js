@@ -62,7 +62,7 @@ const initialState = {
     error: null
 }
 
-export default function allFlightsReducer (state = initialState, action) {
+export default function viewFlightsReducer (state = initialState, action) {
   return state
 }
 

@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
+// redux
+import { Provider } from 'react-redux'
+import { store } from './store'
+
 // import the screens for the app
 import HomeScreen from './home';
 import AddFlight from './addFlight';
 import ViewFlights from './viewFlights';
 
-export default RootComponent = StackNavigator(
+const RootComponent = StackNavigator(
   // Navigation route definitions
   {
     Home: { screen: HomeScreen },
@@ -19,3 +23,13 @@ export default RootComponent = StackNavigator(
     headerMode: 'float'
   }
 );
+
+export default class App extends Component {
+  render(){
+    return (
+      <Provider store={store}>
+        <RootComponent store={store}/>
+      </Provider>
+    )
+  }
+}
