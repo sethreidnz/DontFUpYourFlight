@@ -1,28 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { AppRegistry } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
-export default class RootComponent extends Component {
-  render() {
-    return (
-      <View>
-        <Text>
-          Welcome to React Native!
-        </Text>
-      </View>
-    );
+// import the screens for the app
+import HomeScreen from './home';
+import AddFlight from './addFlight';
+import ViewFlights from './viewFlights';
+
+export default RootComponent = StackNavigator(
+  // Navigation route definitions
+  {
+    Home: { screen: HomeScreen },
+    AddFlight: { screen: AddFlight },
+    AllFlights: { screen: ViewFlights }
+  },
+  // StackNavigatorConfig object
+  {
+    headerMode: 'float'
   }
-}
-
-const styles = StyleSheet.create({
-});
+);
