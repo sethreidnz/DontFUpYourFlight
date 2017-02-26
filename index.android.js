@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -7,6 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
+import './reactotronConfig';
 
 import RootComponent from './src/root';
 

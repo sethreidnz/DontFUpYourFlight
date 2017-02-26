@@ -16,10 +16,11 @@
   "devDependencies": {
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
-    "reactotron-cli": "^1.7.0",
     "flow-bin": "0.37.0",
     "jest": "19.0.2",
-    "react-test-renderer": "~15.4.0"
+    "react-test-renderer": "~15.4.0",
+    "reactotron-cli": "^1.7.0",
+    "reactotron-react-native": "^1.7.0"
   },
   "jest": {
     "preset": "react-native"
