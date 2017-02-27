@@ -4,7 +4,7 @@ import { StackNavigator } from 'react-navigation';
 
 // redux
 import { Provider } from 'react-redux'
-import { store } from './store'
+import store from './store'
 
 // import the screens for the app
 import HomeScreen from './home';
