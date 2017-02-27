@@ -1,5 +1,17 @@
 # Presentation Notes
 
+- State of mobile development
+
+- Native apps
+
+- Hybrid apps
+
+- Native JavaScript 
+
+    - Appcelerator Titanium
+    - Native script
+    - 
+
 - Getting started
 
     - React native CLI

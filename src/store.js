@@ -2,7 +2,8 @@ import {
     createStore, 
     applyMiddleware, 
     compose, 
-    combineReducers
+    combineReducers,
+    applyMiddleware
 } from 'redux';
 
 import allFlights from './viewFlights/redux';
@@ -12,6 +13,5 @@ const rootReducer = combineReducers({
 })
 
 export const store = createStore(
-  rootReducer,
-  {}
+  rootReducer
 )

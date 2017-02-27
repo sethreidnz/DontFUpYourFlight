@@ -65,3 +65,7 @@ export default [
         location: "Rotorua International"
     }
 ]
+
+export getAirportById = (id){
+    return 
+}
