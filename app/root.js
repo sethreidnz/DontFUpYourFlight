@@ -8,19 +8,16 @@ import store from './store'
 import firebaseConfig from './firebase.json';
 
 // import the screens for the app
-import HomeScreen from './containers/Home'
-import LoginScreen from './containers/Account/Login'
-import AddFlightScreen from './containers/AddFlight'
-import ViewFlightsScreen from './containers/ViewFlights'
+import HomeScreen from './containers/home'
+import LoginScreen from './containers/auth/Login'
+import SignUpScreen from './containers/auth/SignUp'
 
 const RootComponent = StackNavigator(
   // Navigation route definitions
   {
     Home: { screen: HomeScreen },
-    SignUp: { screen: ViewFlightsScreen },
-    LogIn: { screen: ViewFlightsScreen },
-    AddFlight: { screen: AddFlightScreen },
-    AllFlights: { screen: ViewFlightsScreen }
+    LogIn: { screen: LoginScreen },
+    SignUp: { screen: SignUpScreen }
   },
   // StackNavigatorConfig object
   {
@@ -34,15 +31,6 @@ export default class App extends Component {
     this.state = { loaded: false }
   }
   componentWillMount() {
-    // firebase.initializeApp(firebaseConfig);
-
-    // firebase.auth().onAuthStateChanged((user) => {
-    //   this.setState({ loaded: true });
-
-    //   if (user) {
-    //     store.dispatch({ type: SIGN_IN_SUCCESS, payload: user });
-    //   }
-    // });
   }
   render(){
     return (

@@ -6,25 +6,17 @@ import {
   Button
 } from 'react-native';
 
-export default class LoginScreen extends React.Component {
+export default class Login extends React.Component {
   constructor({props}){
     super(props);
   }
   static navigationOptions = {
-    title: 'Dont F Up Your Flight',
+    title: 'Login',
   };
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View>
-        <Button
-          onPress={() => navigate('AddFlight')}
-          title="Add Flight"
-        />
-        <Button
-          onPress={() => navigate('AllFlights')}
-          title="View Flights at risk"
-        />
       </View>
     );
   }
