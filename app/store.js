@@ -1,14 +1,11 @@
-import { 
-    createStore, 
-    applyMiddleware, 
-    compose,
-    combineReducers
-} from 'redux';
+import {  createStore,  applyMiddleware,  compose, combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form'
 
-import allFlights from './viewFlights/redux';
+import auth from './modules/auth';
 
 const rootReducer = combineReducers({
-    allFlights
+    auth,
+    formReducer
 })
 
 let store;

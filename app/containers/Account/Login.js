@@ -5,14 +5,13 @@ import {
   View,
   Button
 } from 'react-native';
-import { showNotification, createScheduledNotification } from '../shared/notifications';
 
-export default class HomeScreen extends React.Component {
+export default class LoginScreen extends React.Component {
   constructor({props}){
     super(props);
   }
   static navigationOptions = {
-    title: 'Dont F*** Up Your Flight',
+    title: 'Dont F Up Your Flight',
   };
   render() {
     const { navigate } = this.props.navigation;
@@ -25,10 +24,6 @@ export default class HomeScreen extends React.Component {
         <Button
           onPress={() => navigate('AllFlights')}
           title="View Flights at risk"
-        />
-        <Button
-          onPress={() => createScheduledNotification()}
-          title="Create notification"
         />
       </View>
     );
