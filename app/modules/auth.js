@@ -68,6 +68,29 @@ const signUpErrorRecieved = (error) => {
   }
 }
 
+// login actions
+const loginRequested = (email, password) => {
+  return {
+    type: ActionTypes.LOGIN_REQUESTED,
+    user: {
+      email,
+      password
+    }
+  }
+}
+const loginSuccessRecieved = (user) => {
+  return {
+    type: ActionTypes.LOGIN_SUCCESS_RECIEVED,
+    user: user
+  }
+}
+const loginErrorRecieved = (error) => {
+  return {
+    type: ActionTypes.LOGIN_ERROR_RECEIVED,
+    error: error
+  }
+}
+
 export const resetAuthState = () => {
   return {
     type: ActionTypes.RESET_AUTH_STATE_REQUESTED
@@ -93,16 +116,27 @@ const initializeApp = () => async (dispatch, getState) => {
 const registerUser = ({ email, password }) => async (dispatch) => {
   try {
     dispatch(signUpRequested(email, password))
-    await firebase.auth().createUserWithEmailAndPassword(email, password)
-    dispatch(signUpSuccessRecieved())
+    const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
+    dispatch(signUpSuccessRecieved(user))
   } catch (error) {
     dispatch(signUpErrorRecieved(error))
+  }
+}
+
+const loginUser = ({ email, password }) => async (dispatch) => {
+  try {
+    dispatch(loginRequested(email, password))
+    const user = await firebase.auth().signInWithEmailAndPassword(email, password)
+    dispatch(loginSuccessRecieved(user))
+  } catch (error) {
+    dispatch(loginErrorRecieved(error))
   }
 }
 
 export const Actions = {
   initializeApp,
   registerUser,
+  loginUser,
   resetAuthState
 }
 
@@ -112,7 +146,7 @@ export const Actions = {
 const getIsInitialized = state => state.auth.isInitialized
 const getIsInitializing = state => state.auth.isInitializing && !state.auth.isInitialized
 const getIsLoggedIn = state => state.auth.user != null
-const getAuthError = state => state.auth.error
+const getAuthError = state => state.auth.error ? state.auth.error.message : null
 
 export const Selectors = {
   getIsInitialized,
@@ -150,15 +184,49 @@ const handleInitializeAppErrorReceived = (state, action) => {
 }
 
 const handleSignUpRequested = (state) => {
-  return state
+  return {
+    ...state,
+    isSigningUp: true
+  }
 }
 
-const handleSignUpSuccessReceived = (state) => {
-  return state
+const handleSignUpSuccessReceived = (state, action) => {
+  return {
+    ...state,
+    isSigningUp: false,
+    user: action.user
+  }
 }
 
-const handleSignUpErrorReceived = (state) => {
-  return state
+const handleSignUpErrorReceived = (state, action) => {
+  return {
+    ...state,
+    isSigningUp: false,
+    error: action.error
+  }
+}
+
+const handleLoginRequested = (state) => {
+  return {
+    ...state,
+    isLoggingIn: true
+  }
+}
+
+const handleLoginSuccessReceived = (state, action) => {
+  return {
+    ...state,
+    isLoggingIn: false,
+    user: action.user
+  }
+}
+
+const handleLoginErrorReceived = (state, action) => {
+  return {
+    ...state,
+    isLoggingIn: false,
+    error: action.error
+  }
 }
 
 const handleResetStateReceived = (state) => {
@@ -175,6 +243,9 @@ export const ActionHandlers = {
   [ActionTypes.SIGN_UP_REQUESTED]: handleSignUpRequested,
   [ActionTypes.SIGN_UP_SUCCESS_RECIEVED]: handleSignUpSuccessReceived,
   [ActionTypes.SIGN_UP_ERROR_RECEIVED]: handleSignUpErrorReceived,
+  [ActionTypes.LOGIN_REQUESTED]: handleLoginRequested,
+  [ActionTypes.LOGIN_SUCCESS_RECIEVED]: handleLoginSuccessReceived,
+  [ActionTypes.LOGIN_ERROR_RECEIVED]: handleLoginErrorReceived,
   [ActionTypes.RESET_AUTH_STATE_REQUESTED]: handleResetStateReceived
 }
 
@@ -185,6 +256,8 @@ const INITIAL_STATE = {
   error: '',
   isInitialized: false,
   isInitializing: false,
+  isSigningUp: false,
+  isLoggingIn: false,
   user: null
 }
 

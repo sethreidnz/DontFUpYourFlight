@@ -13,7 +13,7 @@ export default class HomeActionButtons extends Component {
     title: 'Dont F Up Your Flight'
   }
   render () {
-    const { navigate } = this.propss
+    const { navigate } = this.props
     return (
       <View>
         <Button

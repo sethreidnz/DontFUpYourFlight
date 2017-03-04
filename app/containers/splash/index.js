@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { StyleSheet, View, Text } from 'react-native'
-import { NavigationActions } from 'react-navigation'
 
+import { navigateTo } from '../../modules/utility'
 import * as AuthModule from '../../modules/auth'
 
 const mapStateToProps = (state) => ({
@@ -37,34 +37,19 @@ export default class SplashScreen extends Component {
   }
 
   componentDidUpdate () {
-    if (this.props.isInitialized) {
-      if (this.props.isLoggedIn) {
-        this._navigateTo('MainDrawerNavigator')
+    const { isInitialized, isLoggedIn, navigation } = this.props
+    if (isInitialized) {
+      if (isLoggedIn) {
+        navigateTo(navigation, 'MainNavigator')
       } else {
-        this._navigateTo('AuthScreen')
+        navigateTo(navigation, 'AuthScreen')
       }
     }
   }
 
-  _navigateTo = (routeName) => {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName })]
-    })
-    this.props.navigation.dispatch(resetAction)
-  }
-
   render () {
     return (
-      <View style={styles.container}>
-        <Text>Login</Text>
-      </View>
+      <View />
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-})

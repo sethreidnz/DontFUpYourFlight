@@ -3,53 +3,90 @@ import { Text, View, TouchableOpacity, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
 import { Container, Input, Item, Spinner } from '../shared'
 
+import { navigateTo } from '../../modules/utility'
+
 class Signup extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      showLoginScreen: true
+    }
+  }
   static navigationOptions = {
     title: 'Sign Up'
   }
   static propTypes = {
     actions: PropTypes.shape({
       resetAuthState: PropTypes.func.isRequired,
-      registerUser: PropTypes.func.isRequired
+      registerUser: PropTypes.func.isRequired,
+      loginUser: PropTypes.func.isRequired
     }).isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    navigation: PropTypes.object.isRequired,
     isInitialized: PropTypes.bool.isRequired,
     authError: PropTypes.string,
     handleSubmit: PropTypes.func.isRequired,
     email: PropTypes.string,
     password: PropTypes.string
   }
-  componentWillMount () {
-    this.props.actions.resetAuthState()
+  componentWillUpdate = () => {
+    const { isLoggedIn, navigation } = this.props
+    if (isLoggedIn) {
+      navigateTo(navigation, 'MainNavigator')
+    }
   }
-  handleFormSubmit = (props) => {
-    const { email, password } = props
-    this.props.actions.registerUser({ email, password })
+  componentWillMount () {
+    const { isLoggedIn, navigation, actions: { resetAuthState } } = this.props
+    if (isLoggedIn) {
+      navigateTo(navigation, 'MainNavigator')
+    } else {
+      resetAuthState()
+    }
+  }
+  _toggleAuthScreens = () => {
+    const { showLoginScreen } = this.state
+    this.setState({
+      showLoginScreen: !showLoginScreen
+    })
+  }
+  _handleFormSubmit = (props) => {
+    const { email, password, actions } = props
+    const { showLoginScreen } = this.state
+    if (!showLoginScreen) {
+      // actions.registerUser({ email, password })
+    } else {
+      // actions.loginUser({ email, password })
+    }
   }
   _renderError = () => {
     return this.props.authError ? <Text > {this.props.authError} </Text> : <View />
   }
   _renderSubmit = () => {
     const { isInitialized, handleSubmit } = this.props
+    const { showLoginScreen } = this.state
+    const buttonText = showLoginScreen ? 'Login' : 'Sign up'
     if (!isInitialized) {
       return <Spinner />
     } else {
       return (
         <Item>
-          <Button onPress={handleSubmit(this.handleFormSubmit)} title='Confirm'>Log in</Button>
+          <Button onPress={handleSubmit(this._handleFormSubmit)} title={buttonText} />
         </Item>
       )
     }
   }
-  render () {
+  _renderSwitchAuthScreen
+  _renderFormElements = () => {
+    const { showLoginScreen } = this.state
     return (
-      <Container>
+      <View>
         <Item>
           <Field
             name='email'
             component={Input}
             placeholder='Email'
             autoCapitalize={'none'}
-          />
+            />
         </Item>
         <Item>
           <Field
@@ -57,16 +94,28 @@ class Signup extends Component {
             component={Input}
             secureTextEntry
             placeholder='Password'
-          />
+            />
         </Item>
-        <Item>
+        {
+        !showLoginScreen
+        ? <Item>
           <Field
             name='repassword'
             component={Input}
             secureTextEntry
             placeholder='Confirm Password'
-          />
+            />
         </Item>
+        : null
+        }
+      </View>
+    )
+  }
+  render () {
+    const { showLoginScreen } = this.state
+    return (
+      <Container>
+        { this._renderFormElements() }
         <Item>
           {this._renderError()}
         </Item>
@@ -74,10 +123,16 @@ class Signup extends Component {
           {this._renderSubmit()}
         </Item>
         <Item>
-          <TouchableOpacity>
-            <Text>
-              Already signed up? Click here to login
-            </Text>
+          <TouchableOpacity onPress={() => this._toggleAuthScreens()}>
+            {
+            !showLoginScreen
+            ? <Text>
+                Already signed up? Press here to login
+              </Text>
+            : <Text>
+                Don't have an account? Press here to sign up
+              </Text>
+            }
           </TouchableOpacity>
         </Item>
       </Container>
@@ -110,4 +165,4 @@ const validate = (props) => {
   return errors
 }
 
-export default reduxForm({ form: 'signup', validate })(Signup)
+export default reduxForm({ form: 'auth', validate })(Signup)
