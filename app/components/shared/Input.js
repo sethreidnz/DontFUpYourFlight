@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export, no-shadow */
-import React, { PropTypes } from 'react';
-import { TextInput, View, Text } from 'react-native';
+import React, { PropTypes } from 'react'
+import { TextInput, View, Text } from 'react-native'
 
 const propTypes = {
   input: PropTypes.object.isRequired,
@@ -8,17 +8,17 @@ const propTypes = {
   placeholder: PropTypes.string.isRequired,
   secureTextEntry: PropTypes.bool,
   multiline: PropTypes.bool,
-  containerStyle: PropTypes.object,
-};
+  containerStyle: PropTypes.object
+}
 
 const defaultProps = {
   secureTextEntry: false,
   multiline: false,
-  containerStyle: {},
-};
+  containerStyle: {}
+}
 
 const Input = (props) => {
-  const { inputContainer, InputText, errorText } = styles;
+  const { inputContainer, InputText, errorText } = styles
   const {
     input: { value, onChange },
     meta: { touched, error },
@@ -27,7 +27,7 @@ const Input = (props) => {
     multiline,
     containerStyle,
     ...otherProps
-  } = props;
+  } = props
 
   return (
     <View style={[inputContainer, containerStyle]}>
@@ -46,8 +46,8 @@ const Input = (props) => {
           <Text style={errorText}>{error}</Text>
         </View>}
     </View>
-  );
-};
+  )
+}
 
 const styles = {
   inputContainer: {
@@ -56,7 +56,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#ddd'
   },
   InputText: {
     color: '#000',
@@ -64,14 +64,14 @@ const styles = {
     paddingLeft: 5,
     fontSize: 18,
     lineHeight: 23,
-    flex: 2,
+    flex: 2
   },
   errorText: {
-    color: '#ff5964',
-  },
-};
+    color: '#ff5964'
+  }
+}
 
-Input.defaultProps = defaultProps;
-Input.propTypes = propTypes;
+Input.defaultProps = defaultProps
+Input.propTypes = propTypes
 
-export { Input };
+export { Input }

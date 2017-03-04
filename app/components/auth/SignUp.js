@@ -1,53 +1,51 @@
 import React, { Component, PropTypes } from 'react'
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
-import { Container, Input, Button, Item, Spinner } from '../shared'
-
-const propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  clearState: PropTypes.func.isRequired,
-  signUpUser: PropTypes.func.isRequired,
-  authError: PropTypes.string.isRequired,
-  isInitialized: PropTypes.bool.isRequired
-}
+import { Container, Input, Item, Spinner } from '../shared'
 
 class Signup extends Component {
-  constructor (props) {
-    super(props)
-
-    this.handleFormSubmit = this.handleFormSubmit.bind(this)
+  static navigationOptions = {
+    title: 'Sign Up'
   }
-
+  static propTypes = {
+    actions: PropTypes.shape({
+      resetAuthState: PropTypes.func.isRequired,
+      registerUser: PropTypes.func.isRequired
+    }).isRequired,
+    isInitialized: PropTypes.bool.isRequired,
+    authError: PropTypes.string,
+    handleSubmit: PropTypes.func.isRequired,
+    email: PropTypes.string,
+    password: PropTypes.string
+  }
   componentWillMount () {
-   // this.props.clearState()
+    this.props.actions.resetAuthState()
   }
-
-  handleFormSubmit (props) {
-    const { email, password, firstname, lastname } = props
-
-    this.props.signUpUser({ email, password, firstname, lastname })
+  handleFormSubmit = (props) => {
+    const { email, password } = props
+    this.props.actions.registerUser({ email, password })
   }
-
+  _renderError = () => {
+    return this.props.authError ? <Text > {this.props.authError} </Text> : <View />
+  }
+  _renderSubmit = () => {
+    const { isInitialized, handleSubmit } = this.props
+    if (!isInitialized) {
+      return <Spinner />
+    } else {
+      return (
+        <Button
+          onPress={() => handleSubmit(this.handleFormSubmit(this.props))}
+          title='Submit'
+          color='#841584'
+          accessibilityLabel='Submit sign up form'
+        />
+      )
+    }
+  }
   render () {
-    const { handleSubmit } = this.props
     return (
       <Container>
-        <Item>
-          <Field
-            name='firstname'
-            component={Input}
-            placeholder='First name'
-          />
-        </Item>
-
-        <Item>
-          <Field
-            name='lastname'
-            component={Input}
-            placeholder='Last name'
-          />
-        </Item>
-
         <Item>
           <Field
             name='email'
@@ -56,7 +54,6 @@ class Signup extends Component {
             autoCapitalize={'none'}
           />
         </Item>
-
         <Item>
           <Field
             name='password'
@@ -65,7 +62,6 @@ class Signup extends Component {
             placeholder='Password'
           />
         </Item>
-
         <Item>
           <Field
             name='repassword'
@@ -74,12 +70,16 @@ class Signup extends Component {
             placeholder='Repeat Password'
           />
         </Item>
-        {this.props.authError ? <Text > {this.props.authError} </Text> : <View />}
-        {this.props.isInitialized ? <Item><Spinner /></Item> : <Item> <Button onPress={handleSubmit(this.handleFormSubmit)}>Log in</Button></Item>}
+        <Item>
+          {this._renderError()}
+        </Item>
+        <Item>
+          {this._renderSubmit()}
+        </Item>
         <Item>
           <TouchableOpacity>
             <Text>
-              Already signed up? Click here to sign in
+              Already signed up? Click here to login
             </Text>
           </TouchableOpacity>
         </Item>
@@ -90,25 +90,13 @@ class Signup extends Component {
 
 const validate = (props) => {
   const errors = {}
-  const fields = ['firstname', 'lastname', 'email', 'password']
+  const fields = ['email', 'password']
 
   fields.forEach((f) => {
     if (!(f in props)) {
       errors[f] = `${f} is required`
     }
   })
-
-  if (props.firstname && props.firstname.length < 3) {
-    errors.firstname = 'Minimum of 3 characters'
-  } else if (props.firstname && props.firstname.length > 20) {
-    errors.firstname = 'Maximum of 20 characters'
-  }
-
-  if (props.lastname && props.lastname.length < 3) {
-    errors.lastname = 'Minimum of 3 characters'
-  } else if (props.lastname && props.lastname.length > 20) {
-    errors.lastname = 'Maximum of 20 characters'
-  }
 
   if (props.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(props.email)) {
     errors.email = 'please provide valid email'
@@ -125,5 +113,4 @@ const validate = (props) => {
   return errors
 }
 
-Signup.propTypes = propTypes
 export default reduxForm({ form: 'signup', validate })(Signup)

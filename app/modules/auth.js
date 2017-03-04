@@ -70,7 +70,7 @@ const signUpErrorRecieved = (error) => {
 
 export const resetAuthState = () => {
   return {
-    type: ActionTypes.RESET_STATE_REQUESTED
+    type: ActionTypes.RESET_AUTH_STATE_REQUESTED
   }
 }
 
@@ -112,11 +112,13 @@ export const Actions = {
 const getIsInitialized = state => state.auth.isInitialized
 const getIsInitializing = state => state.auth.isInitializing && !state.auth.isInitialized
 const getIsLoggedIn = state => state.auth.user != null
+const getAuthError = state => state.auth.error != null
 
 export const Selectors = {
   getIsInitialized,
   getIsInitializing,
-  getIsLoggedIn
+  getIsLoggedIn,
+  getAuthError
 }
 
 // ------------------------------------
@@ -141,7 +143,10 @@ const handleInitializeAppErrorReceived = (state) => {
 }
 
 const handleResetStateReceived = (state) => {
-  return Object.assign({}, state, INITIAL_STATE)
+  return Object.assign({}, state, {
+    user: null,
+    error: null
+  })
 }
 
 export const ActionHandlers = {

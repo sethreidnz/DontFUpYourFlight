@@ -6,9 +6,6 @@ import {
 import HomeActionButtons from './components/HomeActionButtons'
 
 export default class HomeScreen extends Component {
-  constructor ({ props }) {
-    super(props)
-  }
   static navigationOptions = {
     title: 'Dont F Up Your Flight'
   }

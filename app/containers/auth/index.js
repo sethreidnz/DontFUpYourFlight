@@ -1,11 +1,16 @@
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import SignUpForm from '../../components/auth'
-import { signInUser, clearState } from '../../modules/auth'
+import * as AuthModule from '../../modules/auth'
 
-const mapStateToProps = ({ auth }) => {
-  const { error, appReady, user } = auth
+const mapStateToProps = (state) => ({
+  authError: AuthModule.Selectors.getAuthError(state),
+  isInitialized: AuthModule.Selectors.getIsInitialized(state),
+  isLoggedIn: AuthModule.Selectors.getIsLoggedIn(state)
+})
 
-  return { authError: error, appReady, user }
+function mapDispatchToProps (dispatch) {
+  return { actions: bindActionCreators(AuthModule.Actions, dispatch) }
 }
 
-export default connect(mapStateToProps, { signInUser, clearState })(SignUpForm)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm)
