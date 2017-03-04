@@ -89,7 +89,7 @@ const registerUser = ({ email, password }) => async (dispatch) => {
   }
 }
 
-export const ActionsCreators = {
+export const Actions = {
   initializeApp,
   registerUser
 }
@@ -103,6 +103,18 @@ const handleInitializeAppRequested = () => {
 
 export const ActionHandlers = {
   [ActionTypes.INITIALIZE_APP_REQUESTED]: handleInitializeAppRequested
+}
+
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
+const getIsAppReady = state => state.auth.isAppReady
+const getIsLoggedIn = state => state.auth.user != null
+
+export const Selectors = {
+  getIsAppReady,
+  getIsLoggedIn
 }
 
 // ------------------------------------

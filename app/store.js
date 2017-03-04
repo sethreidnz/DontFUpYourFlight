@@ -1,5 +1,6 @@
-import { combineReducers, compose, createStore } from 'redux'
+import { combineReducers, compose, createStore, applyMiddleware } from 'redux'
 import { reducer as formReducer } from 'redux-form'
+import thunk from 'redux-thunk'
 
 import auth from './modules/auth'
 
@@ -9,18 +10,23 @@ const rootReducer = combineReducers({
 })
 
 let store
-const enhancers = []
+const middleware = [thunk]
 if (__DEV__) {
-    // Development mode with Redux DevTools support enabled.
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-            // Prevents Redux DevTools from re-dispatching all previous actions.
-    shouldHotReload: false
-  }) : compose
-    // Create the redux store.
-  store = createStore(rootReducer, composeEnhancers(...enhancers))
+  const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+    }) : compose
+
+  const enhancer = composeEnhancers(
+    applyMiddleware(...middleware),
+    // other store enhancers if any
+  )
+  store = createStore(rootReducer, enhancer)
 } else {
     // Production mode.
-  store = createStore(rootReducer, compose(...enhancers))
+  store = createStore(rootReducer, compose(applyMiddleware(...middleware)))
 }
 
 export default store

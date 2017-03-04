@@ -12,6 +12,7 @@ export default class App extends Component {
   componentWillMount () {
   }
   render () {
+    debugger
     return (
       <Provider store={store}>
         <Navigation store={store} />

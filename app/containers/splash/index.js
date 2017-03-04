@@ -29,6 +29,7 @@ export default class SplashScreen extends Component {
   }
 
   componentDidUpdate () {
+    debugger
     if (this.props.isAppReady) {
       if (this.props.isLoggedIn) {
         this._navigateTo('MainDrawerNavigator')
