@@ -1,26 +1,15 @@
-import React, { Component } from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button
-} from 'react-native'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import Signup from './SignUp'
+import * as AuthModule from '../../modules/auth'
 
-export default class AuthScreen extends React.Component {
-  constructor({props}){
-    super(props)
-  }
-  static navigationOptions = {
-    title: 'Sign Up',
-  }
-  render() {
-    const { navigate } = this.props.navigation
-    return (
-      <View>
-      </View>
-    )
-  }
+const mapStateToProps = ({ auth }) => {
+  const { error, isInitialized, isInitializing, user } = auth
+  return { authError: error, isInitialized, isInitializing, user }
 }
 
-const styles = StyleSheet.create({
-})
+function mapDispatchToProps (dispatch) {
+  return { actions: bindActionCreators(AuthModule.Actions, dispatch) }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup)

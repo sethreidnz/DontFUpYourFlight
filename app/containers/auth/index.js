@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Login from '../../components/auth'
+import SignUpForm from '../../components/auth'
 import { signInUser, clearState } from '../../modules/auth'
 
 const mapStateToProps = ({ auth }) => {
@@ -8,4 +8,4 @@ const mapStateToProps = ({ auth }) => {
   return { authError: error, appReady, user }
 }
 
-export default connect(mapStateToProps, { signInUser, clearState })(Login)
+export default connect(mapStateToProps, { signInUser, clearState })(SignUpForm)

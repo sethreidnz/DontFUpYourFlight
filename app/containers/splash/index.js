@@ -1,20 +1,28 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, View } from 'react-native'
+import { bindActionCreators } from 'redux'
+import { StyleSheet, View, Text } from 'react-native'
 import { NavigationActions } from 'react-navigation'
-import { Actions, Selectors } from '../../modules/auth'
+
+import * as AuthModule from '../../modules/auth'
 
 const mapStateToProps = (state) => ({
-  isAppReady: Selectors.getIsAppReady(state),
-  isLoggedIn: Selectors.getIsLoggedIn(state)
+  isInitialized: AuthModule.Selectors.getIsInitialized(state),
+  isLoggedIn: AuthModule.Selectors.getIsLoggedIn(state)
 })
 
-@connect(mapStateToProps, Actions)
+function mapDispatchToProps (dispatch) {
+  return { actions: bindActionCreators(AuthModule.Actions, dispatch) }
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class SplashScreen extends Component {
   static propTypes = {
-    isAppReady: PropTypes.bool,
-    isLoggedIn: PropTypes.bool,
-    initializeApp: PropTypes.function,
+    isInitialized: PropTypes.bool.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    actions: PropTypes.shape({
+      initializeApp: PropTypes.func.isRequired
+    }).isRequired,
     navigation: PropTypes.any
   }
 
@@ -25,12 +33,12 @@ export default class SplashScreen extends Component {
   }
 
   componentDidMount () {
-    this.props.initializeApp()
+    console.log('Component did mount')
+    this.props.actions.initializeApp()
   }
 
   componentDidUpdate () {
-    debugger
-    if (this.props.isAppReady) {
+    if (this.props.isInitialized) {
       if (this.props.isLoggedIn) {
         this._navigateTo('MainDrawerNavigator')
       } else {
@@ -49,7 +57,9 @@ export default class SplashScreen extends Component {
 
   render () {
     return (
-      <View style={styles.container} />
+      <View style={styles.container}>
+        <Text>Login</Text>
+      </View>
     )
   }
 }
