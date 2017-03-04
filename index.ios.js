@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import './reactotronConfig';
+  AppRegistry
+} from 'react-native'
+import './reactotronConfig'
 
-import RootComponent from './app/root';
+import RootComponent from './app/root'
 
-AppRegistry.registerComponent('DontFUpYourFlight', () => RootComponent);
+AppRegistry.registerComponent('DontFUpYourFlight', () => RootComponent)

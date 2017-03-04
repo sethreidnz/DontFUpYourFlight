@@ -1,41 +1,66 @@
+import * as firebase from 'firebase'
+
+import { createReducer } from './utility'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
-
-// sign up actions
-export const SIGN_UP_REQUESTED = 'SIGN_UP_REQUESTED'
-export const SIGN_UP_SUCCESS_RECIEVED = 'SIGN_UP_SUCCESS_RECIEVED'
-export const SIGN_UP_ERROR_RECEIVED = 'SIGN_UP_ERROR_RECEIVED'
-//sign in actions
-export const SIGN_IN_REQUEST_RECEIVED = 'SIGN_IN_REQUEST_RECEIVED'
-export const SIGN_IN_SUCCESS_RECEIVED = 'SIGN_IN_SUCCESS_RECEIVED'
-export const SIGN_IN_ERROR_RECEIVED = 'SIGN_IN_ERROR_RECEIVED'
-// set initial state 
-export const SET_INITIAL_STATE_REQUESTED = 'SET_INITIAL_STATE_REQUESTED'
+export const ActionTypes = {
+  // firebase app initialization actions
+  INITIALIZE_APP_REQUESTED: 'INITIALIZE_APP_REQUESTED',
+  INITIALIZE_APP_SUCCESS_RECEIVED: 'INITIALIZE_APP_SUCCESS_RECEIVED',
+  INITIALIZE_APP_ERROR_RECEIVED: 'INITIALIZE_APP_ERROR_RECEIVED',
+  // sign up actions
+  SIGN_UP_REQUESTED: 'SIGN_UP_REQUESTED',
+  SIGN_UP_SUCCESS_RECIEVED: 'SIGN_UP_SUCCESS_RECIEVED',
+  SIGN_UP_ERROR_RECEIVED: 'SIGN_UP_ERROR_RECEIVED',
+  // login actions
+  LOGIN_REQUESTED: 'LOGIN_REQUESTED',
+  LOGIN_SUCCESS_RECIEVED: 'LOGIN_SUCCESS_RECIEVED',
+  LOGIN_ERROR_RECEIVED: 'LOGIN_ERROR_RECEIVED'
+}
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+// firebase app initialization actions
+const initializeAppRequested = () => {
+  return {
+    type : ActionTypes.INITIALIZE_APP_REQUESTED
+  }
+}
+const initializeAppSuccessReceived = () => {
+  return {
+    type : ActionTypes.INITIALIZE_APP_REQUESTED
+  }
+}
+const initializeAppErrorReceived = () => {
+  return {
+    type : ActionTypes.INITIALIZE_APP_REQUESTED
+  }
+}
+
+// sign up actions
 const signUpRequested = (email, password) => {
   return {
-    type : SIGN_UP_REQUESTED,
+    type : ActionTypes.SIGN_UP_REQUESTED,
     user: {
-        email,
-        password
+      email,
+      password
     }
   }
 }
 
 const signUpSuccessRecieved = (user) => {
   return {
-    type : ALL_FLIGHTS_RECEIVED,
+    type : ActionTypes.SIGN_UP_SUCCESS_RECIEVED,
     user: user
   }
 }
-
-const allFlightsErrorReceived = (error) => {
+const signUpErrorRecieved = (error) => {
   return {
-    type : ALL_FLIGHTS_ERROR_RECEIVED,
+    type : ActionTypes.SIGN_UP_ERROR_RECEIVED,
     error: error
   }
 }
@@ -43,34 +68,50 @@ const allFlightsErrorReceived = (error) => {
 // ------------------------------------
 // Action Creators
 // ------------------------------------
-export const registerUser = ({ email, password }) => async (dispatch) => {
-    try {
-        dispatch(signUpRequested());
-        await firebase.auth()
-            .createUserWithEmailAndPassword(email, password);
-        console.log("Account created");
-        // Navigate to the Home page, the user is auto logged in
-    } catch (error) {
-        dispatch({ type: SIGN_UP_ERROR_RECEIVED, payload: authFailMessage(error.code) }); 
-    }
-};
+
+const initializeApp = (firebaseConfig) => async (dispatch) => {
+  try {
+    dispatch(initializeAppRequested())
+    await firebase.initializeApp(firebaseConfig)
+    dispatch(initializeAppSuccessReceived())
+  } catch (error) {
+    dispatch(initializeAppErrorReceived())
+  }
+}
+
+const registerUser = ({ email, password }) => async (dispatch) => {
+  try {
+    dispatch(signUpRequested())
+    await firebase.auth().createUserWithEmailAndPassword(email, password)
+    dispatch(signUpSuccessRecieved())
+  } catch (error) {
+    dispatch(signUpErrorRecieved())
+  }
+}
+
+export const ActionsCreators = {
+  initializeApp,
+  registerUser
+}
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+const handleInitializeAppRequested = () => {
 
+}
 
+export const ActionHandlers = {
+  [ActionTypes.INITIALIZE_APP_REQUESTED]: handleInitializeAppRequested
+}
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const INITIAL_STATE = {
   error: '',
-  loading: false,
-  user: null,
+  isAppReady: false,
+  user: null
 }
 
-export default function authReducer (state = INITIAL_STATE, action) {
-  return state
-}
-
+export default createReducer(INITIAL_STATE, ActionHandlers)

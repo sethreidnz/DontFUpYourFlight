@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
-  StyleSheet,
-  Text,
+  // StyleSheet,
   View,
   Button
-} from 'react-native';
+} from 'react-native'
 
-export default class HomeActionButtons extends React.Component {
-  constructor({props}){
-    super(props);
+export default class HomeActionButtons extends Component {
+  constructor ({ props }) {
+    super(props)
   }
   static navigationOptions = {
-    title: 'Dont F Up Your Flight',
-  };
-  render() {
+    title: 'Dont F Up Your Flight'
+  }
+  render () {
+    const { navigate } = this.propss
     return (
-        <View>
-            <Button
-            onPress={() => navigate('AddFlight')}
-            title="Add Flight"
+      <View>
+        <Button
+          onPress={() => navigate('AddFlight')}
+          title='Add Flight'
             />
-            <Button
-            onPress={() => navigate('AllFlights')}
-            title="View Flights at risk" 
+        <Button
+          onPress={() => navigate('AllFlights')}
+          title='View Flights at risk'
             />
-        </View>
-    );
+      </View>
+    )
   }
 }
 
-const styles = StyleSheet.create({
-});
+// const styles = StyleSheet.create({
+// })
