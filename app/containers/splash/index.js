@@ -33,7 +33,6 @@ export default class SplashScreen extends Component {
   }
 
   componentDidMount () {
-    console.log('Component did mount')
     this.props.actions.initializeApp()
   }
 

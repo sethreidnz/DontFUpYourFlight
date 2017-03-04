@@ -1,24 +1,24 @@
 /* eslint-disable import/prefer-default-export */
-import React, { PropTypes } from 'react';
-import { View, Text, Modal } from 'react-native';
-import { Item } from './Item';
-import { Button } from './Button';
+import React, { PropTypes } from 'react'
+import { View, Text, Modal } from 'react-native'
+import { Item } from './Item'
+import { Button } from './Button'
 
 const propTypes = {
   children: PropTypes.node.isRequired,
   visible: PropTypes.bool.isRequired,
   onAccept: PropTypes.func.isRequired,
-  onDecline: PropTypes.func.isRequired,
-};
+  onDecline: PropTypes.func.isRequired
+}
 
 const Confirm = ({ children, visible, onAccept, onDecline }) => {
-  const { textContainer, textStyle, containerStyle } = styles;
+  const { textContainer, textStyle, containerStyle } = styles
 
   return (
     <Modal
       visible={visible}
       transparent
-      animationType="fade"
+      animationType='fade'
       onRequestClose={() => {}}
     >
       <View style={containerStyle}>
@@ -40,27 +40,27 @@ const Confirm = ({ children, visible, onAccept, onDecline }) => {
         </Item>
       </View>
     </Modal>
-  );
-};
+  )
+}
 
-Confirm.propTypes = propTypes;
+Confirm.propTypes = propTypes
 
 const styles = {
   containerStyle: {
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
     position: 'relative',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   textContainer: {
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   textStyle: {
     flex: 1,
     fontSize: 18,
     textAlign: 'center',
-    lineHeight: 40,
-  },
-};
+    lineHeight: 40
+  }
+}
 
-export { Confirm };
+export { Confirm }

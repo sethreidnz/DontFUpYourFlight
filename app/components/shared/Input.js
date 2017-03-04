@@ -54,9 +54,7 @@ const styles = {
     height: 40,
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#ddd'
+    alignItems: 'center'
   },
   InputText: {
     color: '#000',

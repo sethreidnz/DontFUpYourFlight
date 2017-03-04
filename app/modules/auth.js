@@ -92,11 +92,11 @@ const initializeApp = () => async (dispatch, getState) => {
 
 const registerUser = ({ email, password }) => async (dispatch) => {
   try {
-    dispatch(signUpRequested())
+    dispatch(signUpRequested(email, password))
     await firebase.auth().createUserWithEmailAndPassword(email, password)
     dispatch(signUpSuccessRecieved())
   } catch (error) {
-    dispatch(signUpErrorRecieved())
+    dispatch(signUpErrorRecieved(error))
   }
 }
 
@@ -112,7 +112,7 @@ export const Actions = {
 const getIsInitialized = state => state.auth.isInitialized
 const getIsInitializing = state => state.auth.isInitializing && !state.auth.isInitialized
 const getIsLoggedIn = state => state.auth.user != null
-const getAuthError = state => state.auth.error != null
+const getAuthError = state => state.auth.error
 
 export const Selectors = {
   getIsInitialized,
@@ -125,20 +125,39 @@ export const Selectors = {
 // Action Handlers
 // ------------------------------------
 const handleInitializeAppRequested = (state) => {
-  return Object.assign({}, state, {
+  return {
+    ...state,
     isInitialized: false,
     isInitializing: true
-  })
+  }
 }
 
 const handleInitializeAppSuccessReceived = (state) => {
-  return Object.assign({}, state, {
+  return {
+    ...state,
     isInitialized: true,
     isInitializing: false
-  })
+  }
 }
 
-const handleInitializeAppErrorReceived = (state) => {
+const handleInitializeAppErrorReceived = (state, action) => {
+  return {
+    ...state,
+    error: action.error,
+    isInitialized: false,
+    isInitializing: false
+  }
+}
+
+const handleSignUpRequested = (state) => {
+  return state
+}
+
+const handleSignUpSuccessReceived = (state) => {
+  return state
+}
+
+const handleSignUpErrorReceived = (state) => {
   return state
 }
 
@@ -153,9 +172,11 @@ export const ActionHandlers = {
   [ActionTypes.INITIALIZE_APP_REQUESTED]: handleInitializeAppRequested,
   [ActionTypes.INITIALIZE_APP_SUCCESS_RECEIVED]: handleInitializeAppSuccessReceived,
   [ActionTypes.INITIALIZE_APP_ERROR_RECEIVED]: handleInitializeAppErrorReceived,
+  [ActionTypes.SIGN_UP_REQUESTED]: handleSignUpRequested,
+  [ActionTypes.SIGN_UP_SUCCESS_RECIEVED]: handleSignUpSuccessReceived,
+  [ActionTypes.SIGN_UP_ERROR_RECEIVED]: handleSignUpErrorReceived,
   [ActionTypes.RESET_AUTH_STATE_REQUESTED]: handleResetStateReceived
 }
-
 
 // ------------------------------------
 // Reducer

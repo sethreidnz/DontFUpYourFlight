@@ -34,12 +34,9 @@ class Signup extends Component {
       return <Spinner />
     } else {
       return (
-        <Button
-          onPress={() => handleSubmit(this.handleFormSubmit(this.props))}
-          title='Submit'
-          color='#841584'
-          accessibilityLabel='Submit sign up form'
-        />
+        <Item>
+          <Button onPress={handleSubmit(this.handleFormSubmit)} title='Confirm'>Log in</Button>
+        </Item>
       )
     }
   }
@@ -67,7 +64,7 @@ class Signup extends Component {
             name='repassword'
             component={Input}
             secureTextEntry
-            placeholder='Repeat Password'
+            placeholder='Confirm Password'
           />
         </Item>
         <Item>
