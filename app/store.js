@@ -1,6 +1,8 @@
+import { AsyncStorage } from 'react-native'
 import { combineReducers, compose, createStore, applyMiddleware } from 'redux'
 import { reducer as form } from 'redux-form'
 import thunk from 'redux-thunk'
+import { persistStore, autoRehydrate } from 'redux-persist'
 
 import auth from './modules/auth'
 import airports from './modules/airports'
@@ -23,12 +25,14 @@ if (__DEV__) {
 
   const enhancer = composeEnhancers(
     applyMiddleware(...middleware),
-    // other store enhancers if any
+    autoRehydrate()
   )
   store = createStore(rootReducer, enhancer)
 } else {
     // Production mode.
   store = createStore(rootReducer, compose(applyMiddleware(...middleware)))
 }
-
+persistStore(store, { storage: AsyncStorage }, () => {
+  console.log('restored')
+})
 export default store
