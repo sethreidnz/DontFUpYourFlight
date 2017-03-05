@@ -72,4 +72,4 @@ const styles = {
 Input.defaultProps = defaultProps
 Input.propTypes = propTypes
 
-export { Input }
+export { TextInput }
