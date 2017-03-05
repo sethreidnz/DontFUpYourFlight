@@ -3,9 +3,11 @@ import { reducer as form } from 'redux-form'
 import thunk from 'redux-thunk'
 
 import auth from './modules/auth'
+import airports from './modules/airports'
 
 const rootReducer = combineReducers({
   auth,
+  airports,
   form
 })
 

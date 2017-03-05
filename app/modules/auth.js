@@ -258,7 +258,7 @@ const INITIAL_STATE = {
   isInitializing: false,
   isSigningUp: false,
   isLoggingIn: false,
-  user: null
+  user: {}
 }
 
 export default createReducer(INITIAL_STATE, ActionHandlers)
