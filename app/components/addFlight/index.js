@@ -1,58 +1,48 @@
 import React, { Component, PropTypes } from 'react'
-import { View, Picker, Text } from 'react-native'
+import { View, Picker, Text, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
-import DatePicker from 'react-native-datepicker'
 
-import { SelectInput } from '../shared'
+import { TimePicker, SelectInput, Item } from '../shared'
 import Airports from '../../api/airports'
-
-const propTypes = {
-  input: PropTypes.any,
-  label: PropTypes.any,
-  children: PropTypes.any,
-  placeholder: PropTypes.string,
-  defaultValue: PropTypes.any,
-  meta: PropTypes.any,
-  minDate: PropTypes.any
-}
-
-const renderDatePicker = ({ input, label, children, ...custom }) => (
-  <DatePicker
-    date='2016-05-15'
-    mode='datetime'
-    placeholder='select date'
-    format='DD-MM-YYYY-HH-MM-SS'
-    minDate='2016-05-01'
-    maxDate='2016-06-01'
-    confirmBtnText='Confirm'
-    cancelBtnText='Cancel'
-    onDateChange={value => {
-      this.date = value
-      input.onChange(value)
-    }}
-  />
-)
-
-renderDatePicker.propTypes = propTypes
 
 class AddFlight extends Component {
   static navigationOptions = {
     title: 'Add Flight'
   }
+  static propTypes = {
+    actions: PropTypes.shape({
+
+    }),
+    handleSubmit: PropTypes.func.isRequired,
+    departingAirport: PropTypes.string,
+    departingDateTime: PropTypes.string,
+    destinationAirport: PropTypes.string,
+    returningDateTime: PropTypes.string
+  }
+  _handleFormSubmit = (newFlight) => {
+    // const { actions: { createFlight } } = this.props
+    // createFlight(newFlight)
+  }
   render = () => {
-    const Item = Picker.Item
+    const { handleSubmit } = this.props
+    const PickerItem = Picker.Item
     return (
       <View>
         <Text>Departing Airport</Text>
         <Field name='departingAirport' mode='dropdown' component={SelectInput} >
-          {Airports.map((airport) => <Item label={airport.name} value={airport} key={airport.id} />)}
+          {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.id} />)}
         </Field>
+        <Text>Departing Date/Time</Text>
+        <Field name='departingDateTime' mode='dropdown' component={TimePicker} />
         <Text>Destination Airport</Text>
         <Field name='destinationAirport' mode='dropdown' component={SelectInput} >
-          {Airports.map((airport) => <Item label={airport.name} value={airport} key={airport.id} />)}
+          {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.id} />)}
         </Field>
-        <Text>Date</Text>
-        <Field name='departingDate' mode='dropdown' component={renderDatePicker} />
+        <Text>Returning Date/Time</Text>
+        <Field name='returningDateTime' mode='dropdown' component={TimePicker} />
+        <Item>
+          <Button onPress={handleSubmit(this._handleFormSubmit)} title='Create Flight' />
+        </Item>
       </View>
     )
   }

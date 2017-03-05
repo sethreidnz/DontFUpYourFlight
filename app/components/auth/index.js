@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Text, View, TouchableOpacity, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
-import { Container, TextInput, Item, Spinner } from '../shared'
+import { Container, Input, Item, Spinner } from '../shared'
 
 import { navigateTo } from '../../modules/utility'
 
@@ -84,7 +84,7 @@ class Signup extends Component {
         <Item>
           <Field
             name='email'
-            component={TextInput}
+            component={Input}
             placeholder='Email'
             autoCapitalize={'none'}
             />
@@ -92,7 +92,7 @@ class Signup extends Component {
         <Item>
           <Field
             name='password'
-            component={TextInput}
+            component={Input}
             secureTextEntry
             placeholder='Password'
             />
@@ -102,7 +102,7 @@ class Signup extends Component {
         ? <Item>
           <Field
             name='repassword'
-            component={TextInput}
+            component={Input}
             secureTextEntry
             placeholder='Confirm Password'
             />

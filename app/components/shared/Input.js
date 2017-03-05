@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export, no-shadow */
 import React, { PropTypes } from 'react'
 import { TextInput, View, Text } from 'react-native'
 
@@ -72,4 +71,4 @@ const styles = {
 Input.defaultProps = defaultProps
 Input.propTypes = propTypes
 
-export { TextInput }
+export { Input }
