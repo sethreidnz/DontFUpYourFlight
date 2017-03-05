@@ -19,6 +19,10 @@ export const ActionTypes = {
   LOGIN_REQUESTED: 'LOGIN_REQUESTED',
   LOGIN_SUCCESS_RECIEVED: 'LOGIN_SUCCESS_RECIEVED',
   LOGIN_ERROR_RECEIVED: 'LOGIN_ERROR_RECEIVED',
+  // logout actions
+  LOGOUT_REQUESTED: 'LOGOUT_REQUESTED',
+  LOGOUT_SUCCESS_RECIEVED: 'LOGOUT_SUCCESS_RECIEVED',
+  LOGOUT_ERROR_RECEIVED: 'LOGOUT_ERROR_RECEIVED',
 
   RESET_AUTH_STATE_REQUESTED: 'RESET_AUTH_STATE_REQUESTED'
 }
@@ -91,6 +95,24 @@ const loginErrorRecieved = (error) => {
   }
 }
 
+// logout actions
+const logoutRequested = (email, password) => {
+  return {
+    type: ActionTypes.LOGOUT_REQUESTED
+  }
+}
+const logoutSuccessRecieved = (user) => {
+  return {
+    type: ActionTypes.LOGOUT_SUCCESS_RECIEVED
+  }
+}
+const logoutErrorRecieved = (error) => {
+  return {
+    type: ActionTypes.LOGOUT_ERROR_RECEIVED,
+    error: error
+  }
+}
+
 export const resetAuthState = () => {
   return {
     type: ActionTypes.RESET_AUTH_STATE_REQUESTED
@@ -133,10 +155,21 @@ const loginUser = (email, password) => async (dispatch) => {
   }
 }
 
+const logoutUser = () => async (dispatch) => {
+  try {
+    dispatch(logoutRequested())
+    await firebase.auth().signOut()
+    dispatch(logoutSuccessRecieved())
+  } catch (error) {
+    dispatch(logoutErrorRecieved(error))
+  }
+}
+
 export const Actions = {
   initializeApp,
   registerUser,
   loginUser,
+  logoutUser,
   resetAuthState
 }
 
@@ -209,7 +242,8 @@ const handleSignUpErrorReceived = (state, action) => {
 const handleLoginRequested = (state) => {
   return {
     ...state,
-    isLoggingIn: true
+    isLoggingIn: true,
+    isLoggingOut: false
   }
 }
 
@@ -229,12 +263,38 @@ const handleLoginErrorReceived = (state, action) => {
   }
 }
 
+const handleLogoutRequested = (state) => {
+  return {
+    ...state,
+    isLoggingOut: true
+  }
+}
+
+const handleLogoutSuccessReceived = (state, action) => {
+  return {
+    ...state,
+    isLoggingIn: false,
+    isLoggingOut: false,
+    user: null
+  }
+}
+
+const handleLogoutErrorReceived = (state, action) => {
+  return {
+    ...state,
+    isLoggingOut: false,
+    error: action.error
+  }
+}
+
 const handleResetStateReceived = (state) => {
   return Object.assign({}, state, {
     user: null,
     error: null
   })
 }
+
+
 
 export const ActionHandlers = {
   [ActionTypes.INITIALIZE_APP_REQUESTED]: handleInitializeAppRequested,
@@ -246,6 +306,9 @@ export const ActionHandlers = {
   [ActionTypes.LOGIN_REQUESTED]: handleLoginRequested,
   [ActionTypes.LOGIN_SUCCESS_RECIEVED]: handleLoginSuccessReceived,
   [ActionTypes.LOGIN_ERROR_RECEIVED]: handleLoginErrorReceived,
+  [ActionTypes.LOGOUT_REQUESTED]: handleLogoutRequested,
+  [ActionTypes.LOGOUT_SUCCESS_RECIEVED]: handleLogoutSuccessReceived,
+  [ActionTypes.LOGOUT_ERROR_RECEIVED]: handleLogoutErrorReceived,
   [ActionTypes.RESET_AUTH_STATE_REQUESTED]: handleResetStateReceived
 }
 
@@ -258,6 +321,7 @@ const INITIAL_STATE = {
   isInitializing: false,
   isSigningUp: false,
   isLoggingIn: false,
+  isLoggingOut: false,
   user: null
 }
 

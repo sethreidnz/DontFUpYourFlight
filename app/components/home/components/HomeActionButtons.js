@@ -7,13 +7,14 @@ import {
 
 export default class HomeActionButtons extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired
   }
   static navigationOptions = {
     title: 'Dont F Up Your Flight'
   }
   render () {
-    const { navigation } = this.props
+    const { navigation, logout } = this.props
     return (
       <View>
         <Button
@@ -23,6 +24,10 @@ export default class HomeActionButtons extends Component {
         <Button
           onPress={() => navigation.navigate('AllFlights')}
           title='View Flights at risk'
+            />
+        <Button
+          onPress={() => logout()}
+          title='Log Out'
             />
       </View>
     )
