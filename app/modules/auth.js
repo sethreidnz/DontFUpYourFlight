@@ -113,7 +113,7 @@ const initializeApp = () => async (dispatch, getState) => {
   }
 }
 
-const registerUser = ({ email, password }) => async (dispatch) => {
+const registerUser = (email, password) => async (dispatch) => {
   try {
     dispatch(signUpRequested(email, password))
     const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -123,7 +123,7 @@ const registerUser = ({ email, password }) => async (dispatch) => {
   }
 }
 
-const loginUser = ({ email, password }) => async (dispatch) => {
+const loginUser = (email, password) => async (dispatch) => {
   try {
     dispatch(loginRequested(email, password))
     const user = await firebase.auth().signInWithEmailAndPassword(email, password)
@@ -145,7 +145,7 @@ export const Actions = {
 // ------------------------------------
 const getIsInitialized = state => state.auth.isInitialized
 const getIsInitializing = state => state.auth.isInitializing && !state.auth.isInitialized
-const getIsLoggedIn = state => state.auth.user != null
+const getIsLoggedIn = state => state.auth.user !== null
 const getAuthError = state => state.auth.error ? state.auth.error.message : null
 
 export const Selectors = {
@@ -258,7 +258,7 @@ const INITIAL_STATE = {
   isInitializing: false,
   isSigningUp: false,
   isLoggingIn: false,
-  user: {}
+  user: null
 }
 
 export default createReducer(INITIAL_STATE, ActionHandlers)
