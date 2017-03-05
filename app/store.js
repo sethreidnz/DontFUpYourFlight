@@ -32,7 +32,9 @@ if (__DEV__) {
     // Production mode.
   store = createStore(rootReducer, compose(applyMiddleware(...middleware)))
 }
-persistStore(store, { storage: AsyncStorage }, () => {
-  console.log('restored')
+
+export const rehydrateStore = (callback) => persistStore(store, { storage: AsyncStorage }, () => {
+  callback()
 })
+
 export default store
