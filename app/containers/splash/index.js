@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { StyleSheet, View, Text } from 'react-native'
+import { View } from 'react-native'
 
 import { navigateTo } from '../../modules/utility'
 import * as AuthModule from '../../modules/auth'
