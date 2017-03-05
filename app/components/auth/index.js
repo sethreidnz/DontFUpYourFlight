@@ -29,8 +29,8 @@ class Signup extends Component {
     email: PropTypes.string,
     password: PropTypes.string
   }
-  componentWillUpdate = () => {
-    const { isLoggedIn, navigation } = this.props
+  componentWillReceiveProps = (nextProps) => {
+    const { isLoggedIn, navigation } = nextProps
     if (isLoggedIn) {
       navigateTo(navigation, 'MainNavigator')
     }
@@ -49,13 +49,14 @@ class Signup extends Component {
       showLoginScreen: !showLoginScreen
     })
   }
-  _handleFormSubmit = (props) => {
-    const { email, password, actions } = props
+  _handleFormSubmit = (feildValues) => {
+    const { actions: { registerUser, loginUser } } = this.props
+    const { email, password } = feildValues
     const { showLoginScreen } = this.state
     if (!showLoginScreen) {
-      // actions.registerUser({ email, password })
+      registerUser(email, password)
     } else {
-      // actions.loginUser({ email, password })
+      loginUser(email, password)
     }
   }
   _renderError = () => {
