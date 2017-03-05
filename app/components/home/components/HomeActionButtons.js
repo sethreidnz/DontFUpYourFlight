@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import {
   // StyleSheet,
   View,
@@ -6,22 +6,22 @@ import {
 } from 'react-native'
 
 export default class HomeActionButtons extends Component {
-  constructor ({ props }) {
-    super(props)
+  static propTypes = {
+    navigation: PropTypes.object.isRequired
   }
   static navigationOptions = {
     title: 'Dont F Up Your Flight'
   }
   render () {
-    const { navigate } = this.props
+    const { navigation } = this.props
     return (
       <View>
         <Button
-          onPress={() => navigate('AddFlight')}
+          onPress={() => navigation.navigate('AddFlight')}
           title='Add Flight'
             />
         <Button
-          onPress={() => navigate('AllFlights')}
+          onPress={() => navigation.navigate('AllFlights')}
           title='View Flights at risk'
             />
       </View>
