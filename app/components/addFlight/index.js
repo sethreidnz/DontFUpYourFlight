@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react'
 import { View, Picker, Text, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
 
-import { TimePicker, SelectInput, Item } from '../shared'
-import Airports from '../../api/airports'
+import { TimePicker, SelectInput, Item, Spinner } from '../shared'
+import Airports from '../../lib/airports'
+import { navigateTo } from '../../modules/utility'
 
 class AddFlight extends Component {
   static navigationOptions = {
@@ -14,9 +15,10 @@ class AddFlight extends Component {
       createUserFlight: PropTypes.func.isRequired,
       resetAddFlightsState: PropTypes.func.isRequired
     }),
-    isCreating:PropTypes.bool,
+    isLoading:PropTypes.bool,
     hasCreated:PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
     departingAirport: PropTypes.string,
     departingDateTime: PropTypes.string,
     destinationAirport: PropTypes.string,
@@ -26,24 +28,31 @@ class AddFlight extends Component {
     const { actions: { createUserFlight } } = this.props
     createUserFlight(newFlight)
   }
+  componentWillReceiveProps = (nextProps) => {
+    const { hasCreated, navigation } = nextProps
+    if (hasCreated) {
+      navigateTo(navigation, 'MainNavigator')
+    }
+  }
   componentWillMount = () => {
     const { actions: { resetAddFlightsState } } = this.props
     resetAddFlightsState()
   }
   render = () => {
-    const { handleSubmit } = this.props
+    const { handleSubmit, isLoading, hasCreated } = this.props
     const PickerItem = Picker.Item
+    if (isLoading || hasCreated) return <Spinner />
     return (
       <View>
         <Text>Departing Airport</Text>
         <Field name='departingAirport' mode='dropdown' component={SelectInput} >
-          {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.id} />)}
+          {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.name} />)}
         </Field>
         <Text>Departing Date/Time</Text>
         <Field name='departingDateTime' component={TimePicker} />
         <Text>Destination Airport</Text>
         <Field name='destinationAirport' mode='dropdown' component={SelectInput} >
-          {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.id} />)}
+          {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.name} />)}
         </Field>
         <Text>Returning Date/Time</Text>
         <Field name='returningDateTime' component={TimePicker} />

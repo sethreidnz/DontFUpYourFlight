@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View } from 'react-native'
+import { AppState } from 'react-native'
 
+import { Spinner } from '../../components/shared'
 import { navigateTo } from '../../modules/utility'
 import * as AuthModule from '../../modules/auth'
 
@@ -31,11 +32,9 @@ export default class SplashScreen extends Component {
       visible: false
     }
   }
-
   componentDidMount () {
     this.props.actions.initializeApp()
   }
-
   componentDidUpdate () {
     const { isInitialized, isLoggedIn, navigation } = this.props
     if (isInitialized) {
@@ -46,10 +45,9 @@ export default class SplashScreen extends Component {
       }
     }
   }
-
   render () {
     return (
-      <View />
+      <Spinner />
     )
   }
 }

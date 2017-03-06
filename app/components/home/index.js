@@ -6,7 +6,9 @@ import HomeActionButtons from './components/HomeActionButtons'
 export default class HomeScreen extends Component {
   static propTypes = {
     actions: PropTypes.shape({
-      logoutUser: PropTypes.func.required
+      logoutUser: PropTypes.func.isRequired,
+      createNotification: PropTypes.func.isRequired,
+      resetNotificationState: PropTypes.func.isRequired
     }),
     navigation: PropTypes.object.isRequired,
     isLoggedIn: PropTypes.bool.isRequired
@@ -21,7 +23,7 @@ export default class HomeScreen extends Component {
     }
   }
   render () {
-    const { navigation, actions: { logoutUser } } = this.props
-    return <HomeActionButtons navigation={navigation} logout={logoutUser} />
+    const { navigation, actions: { logoutUser, createNotification } } = this.props
+    return <HomeActionButtons navigation={navigation} logout={logoutUser} createNotification={createNotification} />
   }
 }

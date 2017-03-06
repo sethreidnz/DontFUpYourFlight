@@ -6,9 +6,9 @@ import moment from 'moment'
 class TimePicker extends Component {
   constructor (props) {
     super(props)
-    const dateNow = moment().format('DD MM YYYY, h:mm:ss').toString()
+    const dateNow = moment().format('DD MM YYYY, h:mm:ss')
     this.state = {
-      date: dateNow,
+      date: null,
       dateNow: dateNow
     }
   }
@@ -37,7 +37,7 @@ class TimePicker extends Component {
           cancelBtnText='Cancel'
           onDateChange={value => {
             this.state.date = value
-            onChange(value)
+            onChange(moment(Date.parse(value)).format())
           }}
       />
         {touched && error &&

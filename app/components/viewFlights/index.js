@@ -36,11 +36,11 @@ export default class HomeScreen extends Component {
             <Text style={styles.label}>Departing Airport</Text>
             <Text>{flight.departingAirport.name}</Text>
             <Text style={styles.label}>Departing Time</Text>
-            <Text>{moment(flight.departingDateTime).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Text>
+            <Text>{moment(new Date(flight.departingDateTime)).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Text>
             <Text style={styles.label}>Returning Airport</Text>
             <Text>{flight.destinationAirport.name}</Text>
             <Text style={styles.label}>Returning Time</Text>
-            <Text>{moment(flight.returningDateTime).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Text>
+            <Text>{moment(new Date(flight.returningDateTime)).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Text>
           </View>
         ))}
       </ScrollView>

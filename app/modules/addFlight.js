@@ -1,9 +1,11 @@
 import { createReducer } from './utility'
 
 import * as firebase from 'firebase'
+import * as AllFlightsModule from './allFlights'
 
 const createFlight = async (flight) => {
   var flightsRef = firebase.database().ref('flights')
+
   await flightsRef.push(flight)
 }
 
@@ -64,6 +66,7 @@ const createUserFlight = (flight) => async (dispatch, getState) => {
     dispatch(createFlightRequested(flight))
     await createFlight(flight)
     dispatch(createFlightSuccessReceived(flight))
+    dispatch(AllFlightsModule.invalidateAllFlights())
   } catch (error) {
     console.error(error)
     dispatch(createFlightErrorReceived(error))

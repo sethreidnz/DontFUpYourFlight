@@ -60,9 +60,8 @@ export const invalidateAllFlights = () => {
 const getUsersFlights = () => async (dispatch, getState) => {
   try {
     const state = getState()
-    if (getIsFetching(state) && !getHasLoaded(state)) return
+    if (getIsFetching(state)) return
     dispatch(allFlightsRequested())
-    debugger
     const flights = await getFlights()
     dispatch(allFlightsSuccessReceived(flights))
   } catch (error) {
@@ -101,7 +100,8 @@ const handleAllFlightsRequested = (state, action) => {
   return {
     ...state,
     isFetching: true,
-    hasLoaded: false
+    hasLoaded: false,
+    items:[]
   }
 }
 
@@ -130,6 +130,7 @@ const handleAllFlightsErrorReceived = (state, action) => {
 const handleInvalidateAllFlightsData = (state, action) => {
   return {
     ...state,
+    INITIAL_STATE,
     isInvalidated: true
   }
 }

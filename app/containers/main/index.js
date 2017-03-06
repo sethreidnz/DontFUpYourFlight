@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Home from '../../components/home'
 import * as AuthModule from '../../modules/auth'
+import * as NotificationModule from '../../modules/notification'
 
 const mapStateToProps = (state) => {
   return {
@@ -12,7 +13,11 @@ const mapStateToProps = (state) => {
 }
 
 function mapDispatchToProps (dispatch) {
-  return { actions: bindActionCreators(AuthModule.Actions, dispatch) }
+  const actionsToMap = {
+    ...AuthModule.Actions,
+    ...NotificationModule.Actions
+  }
+  return { actions: bindActionCreators(actionsToMap, dispatch) }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
