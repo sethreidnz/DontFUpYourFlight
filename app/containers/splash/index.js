@@ -32,14 +32,9 @@ export default class SplashScreen extends Component {
       visible: false
     }
   }
-
   componentDidMount () {
-    AppState.addEventListener('change', state =>
-      console.log('AppState changed to', state)
-    )
     this.props.actions.initializeApp()
   }
-
   componentDidUpdate () {
     const { isInitialized, isLoggedIn, navigation } = this.props
     if (isInitialized) {
@@ -50,7 +45,6 @@ export default class SplashScreen extends Component {
       }
     }
   }
-
   render () {
     return (
       <Spinner />

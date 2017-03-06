@@ -15,7 +15,7 @@ class AddFlight extends Component {
       createUserFlight: PropTypes.func.isRequired,
       resetAddFlightsState: PropTypes.func.isRequired
     }),
-    isCreating:PropTypes.bool,
+    isLoading:PropTypes.bool,
     hasCreated:PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
@@ -39,9 +39,9 @@ class AddFlight extends Component {
     resetAddFlightsState()
   }
   render = () => {
-    const { handleSubmit, isCreating } = this.props
+    const { handleSubmit, isLoading, hasCreated } = this.props
     const PickerItem = Picker.Item
-    if (isCreating) return <Spinner />
+    if (isLoading || hasCreated) return <Spinner />
     return (
       <View>
         <Text>Departing Airport</Text>

@@ -181,13 +181,13 @@ const getIsInitialized = state => state.auth.isInitialized
 const getIsInitializing = state => state.auth.isInitializing && !state.auth.isInitialized
 const getIsLoggedIn = state => state.auth.user !== null
 const getIsLoggingIn = state => state.auth.isLoggingIn
+const getIsSigningUp = state => state.auth.isSigningUp
 const getAuthError = state => state.auth.error ? state.auth.error.message : null
 
 const getIsLoading = createSelector(
-  [ getIsInitializing, getIsLoggingIn ],
-  (isInitializing, isLoggingIn) => {
-    console.log(`isInitializing: ${isInitializing} isLoggingIn: ${isLoggingIn}`)
-    return isInitializing || isLoggingIn
+  [ getIsInitializing, getIsLoggingIn, getIsSigningUp ],
+  (isInitializing, isLoggingIn, isSigningUp) => {
+    return isInitializing || isLoggingIn || isSigningUp
   }
 )
 
@@ -255,7 +255,8 @@ const handleLoginRequested = (state) => {
   return {
     ...state,
     isLoggingIn: true,
-    isLoggingOut: false
+    isLoggingOut: false,
+    isLoggedIn: false
   }
 }
 
@@ -263,6 +264,7 @@ const handleLoginSuccessReceived = (state, action) => {
   return {
     ...state,
     isLoggingIn: false,
+    isLoggedIn: true,
     user: action.user
   }
 }
@@ -271,6 +273,7 @@ const handleLoginErrorReceived = (state, action) => {
   return {
     ...state,
     isLoggingIn: false,
+    isLoggedIn: false,
     error: action.error
   }
 }
@@ -334,6 +337,7 @@ const INITIAL_STATE = {
   isSigningUp: false,
   isLoggingIn: false,
   isLoggingOut: false,
+  isLoggedIn: false,
   user: null
 }
 

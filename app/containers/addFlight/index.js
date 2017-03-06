@@ -6,7 +6,7 @@ import * as AddFlightsModule from '../../modules/addFlight'
 const mapStateToProps = (state) => {
   return {
     error: AddFlightsModule.Selectors.getError(state),
-    isCreating: AddFlightsModule.Selectors.getIsCreating(state),
+    isLoading: AddFlightsModule.Selectors.getIsCreating(state),
     hasCreated: AddFlightsModule.Selectors.getHasCreated(state)
   }
 }

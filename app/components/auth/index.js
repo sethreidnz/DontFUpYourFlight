@@ -41,7 +41,7 @@ class Signup extends Component {
     if (isLoggedIn) {
       navigateTo(navigation, 'MainNavigator')
     } else {
-      resetAuthState()
+      // resetAuthState()
     }
   }
   _toggleAuthScreens = () => {
