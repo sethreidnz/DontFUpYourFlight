@@ -3,7 +3,7 @@ import { View, Picker, Text, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
 
 import { TimePicker, SelectInput, Item } from '../shared'
-import Airports from '../../api/airports'
+import Airports from '../../lib/airports'
 
 class AddFlight extends Component {
   static navigationOptions = {

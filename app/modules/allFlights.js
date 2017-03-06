@@ -62,7 +62,6 @@ const getUsersFlights = () => async (dispatch, getState) => {
     const state = getState()
     if (getIsFetching(state) && !getHasLoaded(state)) return
     dispatch(allFlightsRequested())
-    debugger
     const flights = await getFlights()
     dispatch(allFlightsSuccessReceived(flights))
   } catch (error) {
