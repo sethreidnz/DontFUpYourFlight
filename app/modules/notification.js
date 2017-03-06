@@ -50,15 +50,15 @@ export const resetNotificationState = () => {
 // Action Creators
 // ------------------------------------
 
-const createNotifiction = () => async (dispatch, getState) => {
+const createNotification = () => async (dispatch, getState) => {
   try {
     const state = getState()
     if (getHasCreated(state) && !getIsCreating(state)) return
     const lastNotificationIndex = getLastNotificationIndex(state)
     const nextNotification = getNextNotification(lastNotificationIndex)
-    const notificationDateTime = new Date(Date.now() + (60 * 100))
+    debugger
     dispatch(createNotificationRequested())
-    await createScheduledNotification(nextNotification.message, notificationDateTime)
+    await createScheduledNotification(nextNotification.message)
     dispatch(createNotificationSuccessReceived(notifications.indexOf(nextNotification)))
   } catch (error) {
     dispatch(createNotificationErrorReceived(error))
@@ -66,7 +66,7 @@ const createNotifiction = () => async (dispatch, getState) => {
 }
 
 export const Actions = {
-  createNotifiction,
+  createNotification,
   resetNotificationState
 }
 
