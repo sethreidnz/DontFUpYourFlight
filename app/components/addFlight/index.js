@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { TimePicker, SelectInput, Item } from '../shared'
 import Airports from '../../lib/airports'
+import { navigateTo } from '../../modules/utility'
 
 class AddFlight extends Component {
   static navigationOptions = {
@@ -17,6 +18,7 @@ class AddFlight extends Component {
     isCreating:PropTypes.bool,
     hasCreated:PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
     departingAirport: PropTypes.string,
     departingDateTime: PropTypes.string,
     destinationAirport: PropTypes.string,
@@ -25,6 +27,12 @@ class AddFlight extends Component {
   _handleFormSubmit = (newFlight) => {
     const { actions: { createUserFlight } } = this.props
     createUserFlight(newFlight)
+  }
+  componentWillReceiveProps = (nextProps) => {
+    const { hasCreated, navigation } = nextProps
+    if (hasCreated) {
+      navigateTo(navigation, 'MainNavigator')
+    }
   }
   componentWillMount = () => {
     const { actions: { resetAddFlightsState } } = this.props

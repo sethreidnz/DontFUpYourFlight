@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View } from 'react-native'
+import { AppState } from 'react-native'
 
+import { Spinner } from '../../components/shared'
 import { navigateTo } from '../../modules/utility'
 import * as AuthModule from '../../modules/auth'
 
@@ -33,6 +34,9 @@ export default class SplashScreen extends Component {
   }
 
   componentDidMount () {
+    AppState.addEventListener('change', state =>
+      console.log('AppState changed to', state)
+    )
     this.props.actions.initializeApp()
   }
 
@@ -49,7 +53,7 @@ export default class SplashScreen extends Component {
 
   render () {
     return (
-      <View />
+      <Spinner />
     )
   }
 }
