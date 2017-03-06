@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import { createSelector } from 'reselect'
 
 import firebaseConfig from '../firebase.json'
 import { createReducer } from './utility'
@@ -179,13 +180,24 @@ export const Actions = {
 const getIsInitialized = state => state.auth.isInitialized
 const getIsInitializing = state => state.auth.isInitializing && !state.auth.isInitialized
 const getIsLoggedIn = state => state.auth.user !== null
+const getIsLoggingIn = state => state.auth.isLoggingIn
 const getAuthError = state => state.auth.error ? state.auth.error.message : null
+
+const getIsLoading = createSelector(
+  [ getIsInitializing, getIsLoggingIn ],
+  (isInitializing, isLoggingIn) => {
+    console.log(`isInitializing: ${isInitializing} isLoggingIn: ${isLoggingIn}`)
+    return isInitializing || isLoggingIn
+  }
+)
 
 export const Selectors = {
   getIsInitialized,
   getIsInitializing,
   getIsLoggedIn,
-  getAuthError
+  getIsLoggingIn,
+  getAuthError,
+  getIsLoading
 }
 
 // ------------------------------------

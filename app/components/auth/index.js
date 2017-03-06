@@ -22,6 +22,7 @@ class Signup extends Component {
       loginUser: PropTypes.func.isRequired
     }).isRequired,
     isLoggedIn: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     navigation: PropTypes.object.isRequired,
     isInitialized: PropTypes.bool.isRequired,
     authError: PropTypes.string,
@@ -114,6 +115,8 @@ class Signup extends Component {
   }
   render () {
     const { showLoginScreen } = this.state
+    const { isLoading } = this.props
+    if (isLoading) return <Spinner />
     return (
       <Container>
         { this._renderFormElements() }

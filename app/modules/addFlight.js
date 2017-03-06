@@ -5,7 +5,7 @@ import * as AllFlightsModule from './allFlights'
 
 const createFlight = async (flight) => {
   var flightsRef = firebase.database().ref('flights')
-  debugger
+
   await flightsRef.push(flight)
 }
 
