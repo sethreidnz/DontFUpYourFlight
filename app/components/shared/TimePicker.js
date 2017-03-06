@@ -37,7 +37,7 @@ class TimePicker extends Component {
           cancelBtnText='Cancel'
           onDateChange={value => {
             this.state.date = value
-            onChange(value)
+            onChange(moment(Date.parse(value)))
           }}
       />
         {touched && error &&
