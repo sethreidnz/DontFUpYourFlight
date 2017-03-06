@@ -11,8 +11,11 @@ class AddFlight extends Component {
   }
   static propTypes = {
     actions: PropTypes.shape({
-
+      createUserFlight: PropTypes.func.isRequired,
+      resetAddFlightsState: PropTypes.func.isRequired
     }),
+    isCreating:PropTypes.bool,
+    hasCreated:PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     departingAirport: PropTypes.string,
     departingDateTime: PropTypes.string,
@@ -20,8 +23,12 @@ class AddFlight extends Component {
     returningDateTime: PropTypes.string
   }
   _handleFormSubmit = (newFlight) => {
-    // const { actions: { createFlight } } = this.props
-    // createFlight(newFlight)
+    const { actions: { createUserFlight } } = this.props
+    createUserFlight(newFlight)
+  }
+  componentWillMount = () => {
+    const { actions: { resetAddFlightsState } } = this.props
+    resetAddFlightsState()
   }
   render = () => {
     const { handleSubmit } = this.props
@@ -33,13 +40,13 @@ class AddFlight extends Component {
           {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.id} />)}
         </Field>
         <Text>Departing Date/Time</Text>
-        <Field name='departingDateTime' mode='dropdown' component={TimePicker} />
+        <Field name='departingDateTime' component={TimePicker} />
         <Text>Destination Airport</Text>
         <Field name='destinationAirport' mode='dropdown' component={SelectInput} >
           {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.id} />)}
         </Field>
         <Text>Returning Date/Time</Text>
-        <Field name='returningDateTime' mode='dropdown' component={TimePicker} />
+        <Field name='returningDateTime' component={TimePicker} />
         <Item>
           <Button onPress={handleSubmit(this._handleFormSubmit)} title='Create Flight' />
         </Item>
@@ -48,9 +55,27 @@ class AddFlight extends Component {
   }
 }
 
-const validate = (props) => {
-  const errors = {}
-  return errors
-}
+// const validate = (props) => {
+//   const errors = {}
+//   const requiredFields = ['departingDateTime', 'destinationAirport']
+//   requiredFields.forEach((f) => {
+//     if (!(f in props)) {
+//       errors[f] = `${f} is required`
+//     }
+//   })
+//   if (props.departingAirport && props.destinationAirport && props.departingAirport.id === props.destinationAirport.id) {
+//     errors.departingAirport = 'Your deparing airport and destination cannot be the same'
+//     errors.destinationAirport = 'Your deparing airport and destination cannot be the same'
+//   }
+//   if (!props.departingDateTime) {
+//     errors.departingDateTime = 'You must select a departing date/time'
+//   }
 
-export default reduxForm({ form: 'addFlight', validate })(AddFlight)
+//   if (!props.returningDateTime) {
+//     errors.returningDateTime = 'You must select a returning date/time'
+//   }
+
+//   return errors
+// }
+
+export default reduxForm({ form: 'addFlight' })(AddFlight)

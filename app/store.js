@@ -6,10 +6,12 @@ import { persistStore, autoRehydrate } from 'redux-persist'
 
 import auth from './modules/auth'
 import addFlight from './modules/addFlight'
+import allFlights from './modules/allFlights'
 
 const rootReducer = combineReducers({
   auth,
   addFlight,
+  allFlights,
   form
 })
 
