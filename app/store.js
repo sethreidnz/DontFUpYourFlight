@@ -5,11 +5,13 @@ import thunk from 'redux-thunk'
 import { persistStore, autoRehydrate } from 'redux-persist'
 
 import auth from './modules/auth'
-import airports from './modules/airports'
+import addFlight from './modules/addFlight'
+import allFlights from './modules/allFlights'
 
 const rootReducer = combineReducers({
   auth,
-  airports,
+  addFlight,
+  allFlights,
   form
 })
 

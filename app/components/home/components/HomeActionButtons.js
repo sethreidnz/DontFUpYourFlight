@@ -22,7 +22,7 @@ export default class HomeActionButtons extends Component {
           title='Add Flight'
             />
         <Button
-          onPress={() => navigation.navigate('AllFlights')}
+          onPress={() => navigation.navigate('ViewFlights')}
           title='View Flights at risk'
             />
         <Button

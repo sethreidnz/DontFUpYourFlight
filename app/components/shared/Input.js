@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export, no-shadow */
 import React, { PropTypes } from 'react'
 import { TextInput, View, Text } from 'react-native'
 
