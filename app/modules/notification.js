@@ -53,7 +53,7 @@ export const resetNotificationState = () => {
 const createNotification = () => async (dispatch, getState) => {
   try {
     const state = getState()
-    if (getHasCreated(state) && !getIsCreating(state)) return
+    if (!getIsCreating(state)) return
     const lastNotificationIndex = getLastNotificationIndex(state)
     const nextNotification = getNextNotification(lastNotificationIndex)
     dispatch(createNotificationRequested())
@@ -92,8 +92,7 @@ export const Selectors = {
 const handleCreateNotificationRequested = (state, action) => {
   return {
     ...state,
-    isCreating: true,
-    hasCreated: false
+    isCreating: true
   }
 }
 
@@ -101,7 +100,6 @@ const handleCreateNotificationSuccessReceived = (state, action) => {
   return {
     ...state,
     isCreating: false,
-    hasCreated: true,
     lastNoficationIndex: action.notificationIndex
   }
 }
@@ -110,7 +108,6 @@ const handleCreateNotificationErrorReceived = (state, action) => {
   return {
     ...state,
     isCreating: false,
-    hasCreated: true,
     error: action.error
   }
 }
@@ -135,7 +132,6 @@ export const ActionHandlers = {
 const INITIAL_STATE = {
   error: '',
   isCreating: false,
-  hasCreated: false,
   lastNoficationIndex: null
 }
 
