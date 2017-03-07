@@ -24,6 +24,8 @@ module.exports = {
         "__DEV__"      : false,
         "__TEST__"     : false,
         "__PROD__"     : false,
-        "__COVERAGE__" : false
+        "__COVERAGE__" : false,
+        "test"         : false,
+        "expect"       : false
     }
 };
