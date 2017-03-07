@@ -26,10 +26,10 @@ const createNotificationRequested = () => {
   }
 }
 
-const createNotificationSuccessReceived = (notification) => {
+const createNotificationSuccessReceived = (notificationIndex) => {
   return {
     type: ActionTypes.CREATE_NOTIFICATION_SUCCESS_RECEIVED,
-    notification
+    notificationIndex
   }
 }
 
@@ -56,7 +56,6 @@ const createNotification = () => async (dispatch, getState) => {
     if (getHasCreated(state) && !getIsCreating(state)) return
     const lastNotificationIndex = getLastNotificationIndex(state)
     const nextNotification = getNextNotification(lastNotificationIndex)
-    debugger
     dispatch(createNotificationRequested())
     await createScheduledNotification(nextNotification.message)
     dispatch(createNotificationSuccessReceived(notifications.indexOf(nextNotification)))
@@ -102,7 +101,8 @@ const handleCreateNotificationSuccessReceived = (state, action) => {
   return {
     ...state,
     isCreating: false,
-    hasCreated: true
+    hasCreated: true,
+    lastNoficationIndex: action.notificationIndex
   }
 }
 
