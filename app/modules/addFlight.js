@@ -1,4 +1,5 @@
 import { createReducer } from './utility'
+import * as AuthModule from './auth'
 
 import * as firebase from 'firebase'
 import * as AllFlightsModule from './allFlights'
@@ -58,10 +59,12 @@ export const resetAddFlightsState = () => {
 // Action Creators
 // ------------------------------------
 
-const createUserFlight = (flight, user) => async (dispatch, getState) => {
+const createUserFlight = (flight) => async (dispatch, getState) => {
   try {
     const state = getState()
     if (getHasCreated(state) && !getIsCreating(state)) return
+    const user = AuthModule.getUser(state)
+    flight.user = user.email
     dispatch(createFlightRequested(flight))
     await createFlight(flight)
     dispatch(createFlightSuccessReceived(flight))

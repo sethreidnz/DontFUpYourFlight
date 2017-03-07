@@ -179,10 +179,18 @@ export const Actions = {
 // ------------------------------------
 const getIsInitialized = state => state.auth.isInitialized
 const getIsInitializing = state => state.auth.isInitializing && !state.auth.isInitialized
-const getIsLoggedIn = state => state.auth.user !== null
+const getUser = state => state.auth.user
 const getIsLoggingIn = state => state.auth.isLoggingIn
 const getIsSigningUp = state => state.auth.isSigningUp
 const getAuthError = state => state.auth.error ? state.auth.error.message : null
+
+const getIsLoggedIn = createSelector(
+  [ getUser ],
+  (user) => {
+    return user != null
+  }
+)
+
 
 const getIsLoading = createSelector(
   [ getIsInitializing, getIsLoggingIn, getIsSigningUp ],
@@ -197,7 +205,8 @@ export const Selectors = {
   getIsLoggedIn,
   getIsLoggingIn,
   getAuthError,
-  getIsLoading
+  getIsLoading,
+  getUser
 }
 
 // ------------------------------------
