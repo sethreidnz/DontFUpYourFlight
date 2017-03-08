@@ -1,11 +1,11 @@
 import { createReducer } from './utility'
+import * as AuthModule from './auth'
 
 import * as firebase from 'firebase'
 import * as AllFlightsModule from './allFlights'
 
 const createFlight = async (flight) => {
   var flightsRef = firebase.database().ref('flights')
-
   await flightsRef.push(flight)
 }
 
@@ -28,21 +28,21 @@ export const ActionTypes = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-const createFlightRequested = (flight) => {
+export const createFlightRequested = (flight) => {
   return {
     type: ActionTypes.CREATE_FLIGHT_REQUESTED,
     flight
   }
 }
 
-const createFlightSuccessReceived = (flight) => {
+export const createFlightSuccessReceived = (flight) => {
   return {
     type: ActionTypes.CREATE_FLIGHT_SUCCESS_RECEIVED,
     flight
   }
 }
 
-const createFlightErrorReceived = (error) => {
+export const createFlightErrorReceived = (error) => {
   return {
     type: ActionTypes.CREATE_FLIGHT_ERROR_RECEIVED,
     error
@@ -63,6 +63,8 @@ const createUserFlight = (flight) => async (dispatch, getState) => {
   try {
     const state = getState()
     if (getHasCreated(state) && !getIsCreating(state)) return
+    const user = AuthModule.Selectors.getUser(state)
+    flight.user = user.email
     dispatch(createFlightRequested(flight))
     await createFlight(flight)
     dispatch(createFlightSuccessReceived(flight))
@@ -96,7 +98,7 @@ export const Selectors = {
 // Action Handlers
 // ------------------------------------
 
-const handleCreateFlightRequested = (state, action) => {
+export const handleCreateFlightRequested = (state, action) => {
   return {
     ...state,
     isCreating: true,
@@ -104,7 +106,7 @@ const handleCreateFlightRequested = (state, action) => {
   }
 }
 
-const handleCreateFlightSuccessReceived = (state, action) => {
+export const handleCreateFlightSuccessReceived = (state, action) => {
   return {
     ...state,
     isCreating: false,
@@ -112,16 +114,16 @@ const handleCreateFlightSuccessReceived = (state, action) => {
   }
 }
 
-const handleCreateFlightErrorReceived = (state, action) => {
+export const handleCreateFlightErrorReceived = (state, action) => {
   return {
     ...state,
     isCreating: false,
-    hasCreated: true,
+    hasCreated: false,
     error: action.error
   }
 }
 
-const handleRestAddFlightState = (state, action) => {
+export const handleResetAddFlightState = (state, action) => {
   return {
     ...state,
     ...INITIAL_STATE
@@ -132,13 +134,13 @@ export const ActionHandlers = {
   [ActionTypes.CREATE_FLIGHT_REQUESTED]: handleCreateFlightRequested,
   [ActionTypes.CREATE_FLIGHT_SUCCESS_RECEIVED]: handleCreateFlightSuccessReceived,
   [ActionTypes.CREATE_FLIGHT_ERROR_RECEIVED]: handleCreateFlightErrorReceived,
-  [ActionTypes.RESET_ADD_FLIGHTS_STATE]: handleRestAddFlightState
+  [ActionTypes.RESET_ADD_FLIGHTS_STATE]: handleResetAddFlightState
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   error: '',
   isCreating: false,
   hasCreated: false,

@@ -4,7 +4,6 @@ import {
   View,
   Button
 } from 'react-native'
-import { createScheduledNotification } from '../../../lib/notifications'
 
 export default class HomeActionButtons extends Component {
   static propTypes = {
@@ -28,7 +27,7 @@ export default class HomeActionButtons extends Component {
           title='View Flights at risk'
             />
         <Button
-          onPress={() => createNotification('hey')}
+          onPress={() => createNotification()}
           title='Create Notification'
             />
         <Button

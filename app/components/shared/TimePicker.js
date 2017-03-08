@@ -31,7 +31,6 @@ class TimePicker extends Component {
           date={this.state.date}
           mode='datetime'
           placeholder='select date'
-          format='DD MM YYYY, h:mm:ss'
           minDate={this.state.dateNow}
           confirmBtnText='Confirm'
           cancelBtnText='Cancel'
@@ -51,7 +50,8 @@ class TimePicker extends Component {
 
 var styles = StyleSheet.create({
   picker: {
-    width: 300
+    width: 300,
+    marginBottom: 10
   }
 })
 

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { View, Picker, Text, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
 
+import Styles from '../../styles'
 import { TimePicker, SelectInput, Item, Spinner } from '../shared'
 import Airports from '../../lib/airports'
 import { navigateTo } from '../../modules/utility'
@@ -43,48 +44,29 @@ class AddFlight extends Component {
     const PickerItem = Picker.Item
     if (isLoading || hasCreated) return <Spinner />
     return (
-      <View>
-        <Text>Departing Airport</Text>
+      <View style={Styles.container}>
+        <Text style={Styles.label}>Departing Airport</Text>
         <Field name='departingAirport' mode='dropdown' component={SelectInput} >
           {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.name} />)}
         </Field>
-        <Text>Departing Date/Time</Text>
+        <Text style={Styles.label}>Departing Date/Time</Text>
         <Field name='departingDateTime' component={TimePicker} />
-        <Text>Destination Airport</Text>
+        <Text style={Styles.label}>Destination Airport</Text>
         <Field name='destinationAirport' mode='dropdown' component={SelectInput} >
           {Airports.map((airport) => <PickerItem label={airport.name} value={airport} key={airport.name} />)}
         </Field>
-        <Text>Returning Date/Time</Text>
+        <Text style={Styles.label}>Returning Date/Time</Text>
         <Field name='returningDateTime' component={TimePicker} />
         <Item>
-          <Button onPress={handleSubmit(this._handleFormSubmit)} title='Create Flight' />
+          <Button style={Styles.button} onPress={handleSubmit(this._handleFormSubmit)} title='Create Flight' />
         </Item>
       </View>
     )
   }
 }
 
-// const validate = (props) => {
-//   const errors = {}
-//   const requiredFields = ['departingDateTime', 'destinationAirport']
-//   requiredFields.forEach((f) => {
-//     if (!(f in props)) {
-//       errors[f] = `${f} is required`
-//     }
-//   })
-//   if (props.departingAirport && props.destinationAirport && props.departingAirport.id === props.destinationAirport.id) {
-//     errors.departingAirport = 'Your deparing airport and destination cannot be the same'
-//     errors.destinationAirport = 'Your deparing airport and destination cannot be the same'
-//   }
-//   if (!props.departingDateTime) {
-//     errors.departingDateTime = 'You must select a departing date/time'
-//   }
+const validate = (props) => {
 
-//   if (!props.returningDateTime) {
-//     errors.returningDateTime = 'You must select a returning date/time'
-//   }
-
-//   return errors
-// }
+}
 
 export default reduxForm({ form: 'addFlight' })(AddFlight)

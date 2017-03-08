@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import { View, ScrollView, Text, StyleSheet } from 'react-native'
+import { View, ScrollView, Text } from 'react-native'
 import moment from 'moment'
 
 import { Spinner } from '../shared'
+import Styles from '../../styles'
 
-export default class HomeScreen extends Component {
+export default class ViewFlightsScreen extends Component {
   static propTypes = {
     actions: PropTypes.shape({
       getUsersFlights: PropTypes.func.required
@@ -27,19 +28,19 @@ export default class HomeScreen extends Component {
       return <Spinner />
     }
     if (hasLoaded && flights.length < 1) {
-      return <Text>You don't have any flights yet</Text>
+      return <Text style={[Styles.label, Styles.container]}>You don't have any flights at risk! (are you sure??)</Text>
     }
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={Styles.container}>
         {flights.map((flight) => (
-          <View style={[styles.listItem, styles.container]} key={flight.id} >
-            <Text style={styles.label}>Departing Airport</Text>
+          <View style={[Styles.listItem, Styles.container]} key={flight.id} >
+            <Text style={Styles.label}>Departing Airport</Text>
             <Text>{flight.departingAirport.name}</Text>
-            <Text style={styles.label}>Departing Time</Text>
+            <Text style={Styles.label}>Departing Time</Text>
             <Text>{moment(new Date(flight.departingDateTime)).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Text>
-            <Text style={styles.label}>Returning Airport</Text>
+            <Text style={Styles.label}>Returning Airport</Text>
             <Text>{flight.destinationAirport.name}</Text>
-            <Text style={styles.label}>Returning Time</Text>
+            <Text style={Styles.label}>Returning Time</Text>
             <Text>{moment(new Date(flight.returningDateTime)).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Text>
           </View>
         ))}
@@ -47,18 +48,3 @@ export default class HomeScreen extends Component {
     )
   }
 }
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  listItem: {
-    borderWidth : 1,
-    marginTop: 5,
-    marginBottom: 5,
-    padding: 5
-  },
-  label:{
-    fontWeight : 'bold'
-  }
-})

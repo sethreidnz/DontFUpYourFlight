@@ -61,6 +61,7 @@ const getUsersFlights = () => async (dispatch, getState) => {
   try {
     const state = getState()
     if (getIsFetching(state)) return
+    dispatch(invalidateAllFlights())
     dispatch(allFlightsRequested())
     const flights = await getFlights()
     dispatch(allFlightsSuccessReceived(flights))
@@ -114,7 +115,8 @@ const handleAllFlightsSuccessReceived = (state, action) => {
     ...state,
     isFetching: false,
     hasLoaded: true,
-    items: flights
+    items: flights,
+    error: null
   }
 }
 
@@ -139,7 +141,7 @@ export const ActionHandlers = {
   [ActionTypes.ALL_FLIGHTS_REQUESTED]: handleAllFlightsRequested,
   [ActionTypes.ALL_FLIGHTS_SUCCESS_RECEIVED]: handleAllFlightsSuccessReceived,
   [ActionTypes.ALL_FLIGHTS_ERROR_RECEIVED]: handleAllFlightsErrorReceived,
-  [ActionTypes.INVALIDATE_ALL_FLIGHTS]: handleInvalidateAllFlightsData
+  [ActionTypes.INVALIDATE_ALL_FLIGHTS_DATA]: handleInvalidateAllFlightsData
 }
 
 // ------------------------------------
