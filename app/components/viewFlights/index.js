@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import { View, ScrollView, Text, StyleSheet } from 'react-native'
+import { View, ScrollView, Text } from 'react-native'
 import moment from 'moment'
 
 import { Spinner } from '../shared'
 import Styles from '../../styles'
 
-export default class HomeScreen extends Component {
+export default class ViewFlightsScreen extends Component {
   static propTypes = {
     actions: PropTypes.shape({
       getUsersFlights: PropTypes.func.required
