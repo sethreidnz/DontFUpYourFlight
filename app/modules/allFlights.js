@@ -61,6 +61,7 @@ const getUsersFlights = () => async (dispatch, getState) => {
   try {
     const state = getState()
     if (getIsFetching(state)) return
+    dispatch(invalidateAllFlights())
     dispatch(allFlightsRequested())
     const flights = await getFlights()
     dispatch(allFlightsSuccessReceived(flights))

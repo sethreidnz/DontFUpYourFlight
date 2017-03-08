@@ -6,28 +6,15 @@ export const createScheduledNotification = (message, date = null) => {
   })
 }
 
-// export const createFlightNotifications = (flightDateTime) => {
-// }
-
-// const getValidNotificationsFromFlightTime = (flightDateTime) => {
-//   return notifications.map((notification) => {
-
-//   })
-// }
-
-// const isNotificationValidWithFlight = (flightDateTime, notification) => {
-//   var notificationDateTime = moment(flightDateTime).subtract(Number, String)
-//   return true
-// }
-
 export const getNextNotificationIndex = (lastNotificationIndex) => {
   if (lastNotificationIndex == null) return 0
-  if (lastNotificationIndex >= notifications.length) return 0
+  if (lastNotificationIndex >= (notifications.length - 1)) return 0
   return lastNotificationIndex + 1
 }
 
 export const getNextNotification = (lastNotificationIndex) => {
-  return notifications[getNextNotificationIndex(lastNotificationIndex)]
+  const nextNotification = notifications[getNextNotificationIndex(lastNotificationIndex)]
+  return nextNotification || notifications[0]
 }
 
 export const notifications = [

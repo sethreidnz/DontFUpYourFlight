@@ -53,11 +53,10 @@ export const resetNotificationState = () => {
 const createNotification = () => async (dispatch, getState) => {
   try {
     const state = getState()
-    if (!getIsCreating(state)) return
     const lastNotificationIndex = getLastNotificationIndex(state)
     const nextNotification = getNextNotification(lastNotificationIndex)
     dispatch(createNotificationRequested())
-    await createScheduledNotification(nextNotification.message)
+    createScheduledNotification(nextNotification.message)
     dispatch(createNotificationSuccessReceived(notifications.indexOf(nextNotification)))
   } catch (error) {
     dispatch(createNotificationErrorReceived(error))
