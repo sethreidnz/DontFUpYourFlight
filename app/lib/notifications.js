@@ -2,7 +2,7 @@ var PushNotification = require('react-native-push-notification')
 export const createScheduledNotification = (message, date = null) => {
   PushNotification.localNotificationSchedule({
     message: message,
-    date: date || new Date(Date.now() + (500))
+    date: date || new Date(Date.now() + (1))
   })
 }
 

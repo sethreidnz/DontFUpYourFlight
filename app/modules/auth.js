@@ -3,6 +3,8 @@ import { createSelector } from 'reselect'
 
 import firebaseConfig from '../firebase.json'
 import { createReducer } from './utility'
+import { invalidateAllFlights } from './allFlights'
+import { resetAddFlightsState } from './addFlight'
 
 // ------------------------------------
 // Constants
@@ -129,6 +131,8 @@ const initializeApp = () => async (dispatch, getState) => {
     const state = getState()
     if (getIsInitializing(state) && !getIsInitialized(state)) return
     dispatch(initializeAppRequested())
+    dispatch(invalidateAllFlights())
+    dispatch(resetAddFlightsState())
     await firebase.initializeApp(firebaseConfig)
     dispatch(initializeAppSuccessReceived())
   } catch (error) {
