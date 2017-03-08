@@ -63,7 +63,7 @@ const createUserFlight = (flight) => async (dispatch, getState) => {
   try {
     const state = getState()
     if (getHasCreated(state) && !getIsCreating(state)) return
-    const user = AuthModule.getUser(state)
+    const user = AuthModule.Selectors.getUser(state)
     flight.user = user.email
     dispatch(createFlightRequested(flight))
     await createFlight(flight)
