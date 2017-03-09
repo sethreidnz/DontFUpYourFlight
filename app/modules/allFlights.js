@@ -1,9 +1,11 @@
 import { createReducer } from './utility'
 import * as firebase from 'firebase'
 
-const getFlights = async () => {
+import * as AuthModule from './auth'
+
+const getFlights = async (userEmail) => {
   var flightsRef = firebase.database().ref('flights')
-  const snapshot = await flightsRef.once('value')
+  const snapshot = await flightsRef.orderByChild('user').equalTo(userEmail).once('value')
   return snapshot.val()
 }
 
@@ -63,7 +65,8 @@ const getUsersFlights = () => async (dispatch, getState) => {
     if (getIsFetching(state)) return
     dispatch(invalidateAllFlights())
     dispatch(allFlightsRequested())
-    const flights = await getFlights()
+    const user = AuthModule.Selectors.getUser(state)
+    const flights = await getFlights(user.email)
     dispatch(allFlightsSuccessReceived(flights))
   } catch (error) {
     dispatch(allFlightsErrorReceived(error))

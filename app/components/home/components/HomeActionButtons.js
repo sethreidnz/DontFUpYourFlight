@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import {
-  // StyleSheet,
   View,
   Button
 } from 'react-native'
