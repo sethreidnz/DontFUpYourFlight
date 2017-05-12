@@ -4,9 +4,14 @@ import * as firebase from 'firebase'
 import * as AuthModule from './auth'
 
 const getFlights = async (userEmail) => {
-  var flightsRef = firebase.database().ref('flights')
+  const flightsRef = firebase.database().ref('flights')
   const snapshot = await flightsRef.orderByChild('user').equalTo(userEmail).once('value')
-  return snapshot.val()
+  const flightsResponse = snapshot.val()
+  const flights = Object.keys(flightsResponse).map((key) => {
+    flightsResponse[key].id = key
+    return flightsResponse[key]
+  })
+  return flights
 }
 
 // ------------------------------------
@@ -28,10 +33,9 @@ export const ActionTypes = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-const allFlightsRequested = (flight) => {
+const allFlightsRequested = () => {
   return {
-    type: ActionTypes.ALL_FLIGHTS_REQUESTED,
-    flight
+    type: ActionTypes.ALL_FLIGHTS_REQUESTED
   }
 }
 
@@ -110,15 +114,11 @@ const handleAllFlightsRequested = (state, action) => {
 }
 
 const handleAllFlightsSuccessReceived = (state, action) => {
-  const flights = Object.keys(action.flights).map((key) => {
-    action.flights[key].id = key
-    return action.flights[key]
-  })
   return {
     ...state,
     isFetching: false,
     hasLoaded: true,
-    items: flights,
+    items: action.flights,
     error: null
   }
 }
